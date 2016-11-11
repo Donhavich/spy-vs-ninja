@@ -62,7 +62,7 @@ public class GameEngine {
 			   
 			}while(!grid.isEmpty(x,y)); //the Grid class should have a method that check whether spot (x,y) is empty
 
-			items[i].setLoction(x,y); // the Item class should have a method to set its Location to (x,y)
+			items[i].setLocation(x,y); // the Item class should have a method to set its Location to (x,y)
 			grid.setObject(item[i]);	
 		}
 	}
