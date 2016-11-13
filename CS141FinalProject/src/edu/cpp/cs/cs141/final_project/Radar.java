@@ -8,8 +8,9 @@ package edu.cpp.cs.cs141.final_project;
  *
  */
 public class Radar extends Item {
-	private int briefloc;
+	private int[] briefloc;
 	public Radar(){}
-	public void getBriefLoc(){}
+	public void findBriefLoc(){}
+	public int[] getBriefLoc(){}
 	
 }
