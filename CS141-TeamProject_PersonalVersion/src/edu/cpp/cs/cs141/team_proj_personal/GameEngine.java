@@ -149,7 +149,17 @@ public class GameEngine {
 
 	}
 
-	
+	/**
+	 * 
+	 * @param direction
+	 * @return {@literal "noMove"} if the player can't move,
+	 * 		   {@literal "empty"}
+	 * 		   {@literal "bullet"}
+	 * 		   {@literal "radar"}
+	 * 	       {@literal "invincible"}
+	 * 		   {@literal "getCase"}
+	 * 		   {@literal "noCase"}
+	 */
 	public String playerTurn(char direction)
 	{
 		boolean isMove=false;
@@ -183,7 +193,7 @@ public class GameEngine {
 			else if(objAhead instanceof Invinc)
 			{
 				isMove=true;
-				reaction="invincibility";
+				reaction="invincible";
 				player.beInvinc();
 				((Invinc) objAhead).beingUsed();
 			}
@@ -336,7 +346,20 @@ public class GameEngine {
 		return player.getInvinc();
 	}
 	
+	public int numOfBullet()
+	{
+		return player.hasBullet()?1:0;
+	}
 	
+	public int lives()
+	{
+		return player.getLives();
+	}
+	
+	public int trunsOfInvinc()
+	{
+		return player.getInvinc();
+	}
 
 	
 	
