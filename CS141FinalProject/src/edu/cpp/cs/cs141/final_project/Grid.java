@@ -4,7 +4,7 @@
 package edu.cpp.cs.cs141.final_project;
 
 /**
- * @author
+ * @author Donovan A. Gonzalez
  *
  */
 public class Grid {
@@ -50,15 +50,22 @@ public class Grid {
 			}
 		}
 	}
+	setEntityCoord();
 }
 
 private void setSpy(Spy player){
 	Floor[8][0] = player;
+	setEntityCoord();
 }
 
 private void setNinjas(Ninja[] ninjas){
-	int i = 0;
-	if(Math.sqrt((r-)^2+(c-)^2 > 3)
+	Random RNG = new Random();
+	for(int i = 0; i< ninjas.length; i++){
+		int randomX = RNG.nextInt(9);
+		int randomY = RNG.nextInt(9);
+		if (Floor[randomX][randomY] == null && Math.sqrt())
+		
+	}
 			   
 }
 	
