@@ -42,12 +42,23 @@ public class Grid {
   }
 }
  private void setRooms(Room [] rooms){
-	 int i = 0;
- 	for(int r = 1: r < Floor.length; r+=3){
-		for(int c = 1; Floor[0].length; c+=3){
-			Floor[r][c] = rooms[i];
-			i++;
+		int i = 0;
+		for(int r = 1: r < Floor.length; r+=3){
+			for(int c = 1; Floor[0].length; c+=3){
+				Floor[r][c] = rooms[i];
+				i++;
+			}
 		}
 	}
- }
- }
+}
+
+private void setSpy(Spy player){
+	Floor[8][0] = player;
+}
+
+private void setNinjas(Ninja[] ninjas){
+	int i = 0;
+	if(Math.sqrt((r-)^2+(c-)^2 > 3)
+			   
+}
+	
