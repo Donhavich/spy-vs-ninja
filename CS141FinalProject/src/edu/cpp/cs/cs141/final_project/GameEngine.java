@@ -22,6 +22,8 @@ public class GameEngine {
 	
 	private Item[] items;
 	
+	boolean isDebug = false;
+	
 	//random number generator
 	private int randGen(int min,int max)
 	{
@@ -98,7 +100,22 @@ public class GameEngine {
 		resetItems();
 		resetNinjas();
 	}
-	
+	public boolean getDebug(){
+		return isDebug;
+	}
+	public void setDebug(int debug){
+		switch(debug)
+		{
+		case 1:
+			isDebug = true;
+			break;
+		case 2:
+			isDebug = false;
+			break;
+		default:
+			isDebug = false;
+		}
+	}
 	public String toString(boolean isDebug)
 	{
 		return grid.toString(isDebug); //every final Class of the SquareObject should have a toString
