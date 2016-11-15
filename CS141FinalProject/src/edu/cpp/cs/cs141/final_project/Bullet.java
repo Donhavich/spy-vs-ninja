@@ -8,8 +8,8 @@ package edu.cpp.cs.cs141.final_project;
  *
  */
 public class Bullet extends Item {
-	public Bullet(String itemName) {
-		super(itemName);
+	public Bullet(String itemName,int x, int y) {
+		super(itemName,x,y);
 	}
 	
 	public void useAmmo(Player p) {
