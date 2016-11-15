@@ -9,8 +9,8 @@ package edu.cpp.cs.cs141.final_project;
  */
 public class Radar extends Item {
 
-	public Radar(String itemName) {
-		super(itemName);
+	public Radar(String itemName, int x,int y) {
+		super(itemName,x,y);
 	}
 	
 	public void useRadar(Player p) {
