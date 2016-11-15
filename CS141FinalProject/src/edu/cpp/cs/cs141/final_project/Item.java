@@ -28,9 +28,9 @@ public abstract class Item extends SquareObject {
 	}
 	
 	
-	public boolean isVisiable()
+	public boolean isVisible()
 	{
-		return isVisiable;
+		return isVisible;
 	}
 
 	
