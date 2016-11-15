@@ -8,9 +8,16 @@ package edu.cpp.cs.cs141.final_project;
  *
  */
 public class Radar extends Item {
-	private int[] briefloc;
+
 	public Radar(){}
-	public void findBriefLoc(){}
-	public int[] getBriefLoc(){}
+	
+	@Override
+	public String toString(boolean isDebug) {
+
+		if(isDebug)
+			return "[r]";
+		else 
+			return "[*]";
+	}
 	
 }

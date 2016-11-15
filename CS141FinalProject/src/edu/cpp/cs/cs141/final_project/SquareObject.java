@@ -7,17 +7,41 @@ package edu.cpp.cs.cs141.final_project;
  * @author
  *
  */
-public interface SquareObject {
+public abstract class SquareObject {
+	
+	private int x;
+	private int y;
+	
+	public SquareObject(){}
+	
+	public SquareObject(int x,int y)
+	{
+		setLocation(x,y);
+	}
 
   /**
   * Assigns the location of the objects on the grid.
   */
-  setX();
-  setY();
+  public void setLocation(int x,int y)
+  {
+	  this.x=x;
+	  this.y=y;
+  }
   
   /**
   * Returns the individual x and y coordinates of the object.
   */
-  getX();
-  getY();
+  public int  getX()
+  {
+	  return x;
+  }
+  
+  public int getY()
+  {
+	  return y;
+  }
+  
+  public abstract String toString(boolean isDebug);
+  
+  
 }

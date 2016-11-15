@@ -8,7 +8,14 @@ package edu.cpp.cs.cs141.final_project;
  *
  */
 public class Bullet extends Item {
-	private int ammo;
 	public Bullet(){}
-	public int getAmmo(){};
+
+	@Override
+	public String toString(boolean isDebug) {
+		if(isDebug)
+			return "[b]";
+		else 
+			return "[*]";
+		
+	}
 }

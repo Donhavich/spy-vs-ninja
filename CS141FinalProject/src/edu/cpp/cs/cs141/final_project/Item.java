@@ -7,14 +7,31 @@ package edu.cpp.cs.cs141.final_project;
  * @author
  *
  */
-public abstract class Item implements SquareObject {
-	private int x;
-	private int y;
-	private String itemname;
+public abstract class Item extends SquareObject {
 	
-	public void setX(int X){}
-	public void setY(int Y){}
-	public int getX(){}
-	public int getY(){}
+	private boolean isVisiable;
+	private boolean isUsed;
+	
+	public Item() {
+		isVisiable=false;
+		isUsed=false;
+	}
+	
+	public boolean isUsed()
+	{
+		return isUsed;
+	}
+	
+	public void beingUsed()
+	{
+		isUsed=true;
+	}
+	
+	
+	public boolean isVisiable()
+	{
+		return isVisiable;
+	}
+
 	
 }
