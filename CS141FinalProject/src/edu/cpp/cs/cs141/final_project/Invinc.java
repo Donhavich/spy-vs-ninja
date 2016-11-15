@@ -1,16 +1,18 @@
 package edu.cpp.cs.cs141.final_project;
 
-public class Invinc extends Item {
-
-	public Invinc() {
+public class Invincibility extends Item {
+		
+	public Invincibility(String itemName) {
+		super(itemName);
+	}
+	
+	public void usePotion(Player p) {
+		
 	}
 
 	@Override
-	public String toString(boolean isDebug) {
-		if(isDebug)
-			return "[i]";
-		else
-			return "[*]";
+	public String itemEffect() {
+		return null;
 	}
 
 }
