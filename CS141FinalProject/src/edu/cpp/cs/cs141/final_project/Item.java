@@ -9,7 +9,7 @@ package edu.cpp.cs.cs141.final_project;
  */
 public abstract class Item extends SquareObject {
 	
-	private boolean isVisiable;
+	private boolean isVisible;
 	private boolean isUsed;
 	
 	public Item() {
