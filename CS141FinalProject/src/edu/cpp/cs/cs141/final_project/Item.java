@@ -9,14 +9,20 @@ package edu.cpp.cs.cs141.final_project;
  */
 public abstract class Item extends SquareObject {
 	
-	private boolean isVisible;
+	private String itemName;
 	private boolean isUsed;
+	private boolean isVisible;
 	
-	public Item() {
-		isVisiable=false;
-		isUsed=false;
+	public Item (String itemName) {
+		this.itemName = itemName;
+		isUsed = false;
+		isVisible = false;
 	}
 	
+	
+	public String getItemName() {
+		return itemName;
+	}
 	public boolean isUsed()
 	{
 		return isUsed;
@@ -24,7 +30,7 @@ public abstract class Item extends SquareObject {
 	
 	public void beingUsed()
 	{
-		isUsed=true;
+		isUsed = true;
 	}
 	
 	
@@ -32,6 +38,8 @@ public abstract class Item extends SquareObject {
 	{
 		return isVisible;
 	}
+	
+	public abstract String itemEffect();
 
 	
 }
