@@ -8,7 +8,19 @@ package edu.cpp.cs.cs141.final_project;
  *
  */
 public class Bullet extends Item {
-	public Bullet(){}
+	public Bullet(String itemName) {
+		super(itemName);
+	}
+	
+	public void useAmmo(Player p) {
+		
+	}
+
+	@Override
+	public String itemEffect() {
+		return null;
+	}
+	
 
 	@Override
 	public String toString(boolean isDebug) {
