@@ -11,15 +11,7 @@ public class Bullet extends Item {
 	public Bullet(String itemName,int x, int y) {
 		super(itemName,x,y);
 	}
-	
-	public void useAmmo(Player p) {
-		
-	}
 
-	@Override
-	public String itemEffect() {
-		return null;
-	}
 	
 
 	@Override

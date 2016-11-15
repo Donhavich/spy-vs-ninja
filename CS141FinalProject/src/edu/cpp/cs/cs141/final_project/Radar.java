@@ -13,14 +13,6 @@ public class Radar extends Item {
 		super(itemName,x,y);
 	}
 	
-	public void useRadar(Player p) {
-		
-	}
-
-	@Override
-	public String itemEffect() {
-		return null;
-	}
 	
 	@Override
 	public String toString(boolean isDebug) {

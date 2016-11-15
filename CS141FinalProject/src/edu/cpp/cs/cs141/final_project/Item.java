@@ -40,7 +40,6 @@ public abstract class Item extends SquareObject {
 		return isVisible;
 	}
 	
-	public abstract String itemEffect();
 
 	
 }
