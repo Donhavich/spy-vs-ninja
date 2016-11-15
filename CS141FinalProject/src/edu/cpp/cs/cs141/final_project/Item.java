@@ -13,7 +13,8 @@ public abstract class Item extends SquareObject {
 	private boolean isUsed;
 	private boolean isVisible;
 	
-	public Item (String itemName) {
+	public Item (String itemName, int x, int y) {
+		super(x,y);
 		this.itemName = itemName;
 		isUsed = false;
 		isVisible = false;
