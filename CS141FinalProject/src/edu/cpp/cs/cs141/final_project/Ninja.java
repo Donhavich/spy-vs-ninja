@@ -26,7 +26,7 @@ package edu.cpp.cs.cs141.final_project;
  * @author Wing Hung Lau
  *
  */
-public class Ninja extends SquareObject implements DynamicAgents {
+public class Ninja extends SquareObject {
 
 	/**
 	 * This field is used to keep track if {@link Ninja} is dead or still alive.
