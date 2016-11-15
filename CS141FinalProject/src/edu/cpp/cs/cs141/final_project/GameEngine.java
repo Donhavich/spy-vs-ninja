@@ -50,9 +50,9 @@ public class GameEngine {
 	private void resetItems()
 	{
 		items=new Item[3];
-		items[0]=new Bullet();
-		items[1]=new Radar();
-		items[2]=new PowerUp();
+		items[0]=new Bullet("Bullet");
+		items[1]=new Radar("Radar");
+		items[2]=new Invinc("Invincibility");
 		for(int i=0;i<3;i++)
 		{
 			int x,y;
@@ -63,7 +63,7 @@ public class GameEngine {
 			}while(!grid.isEmpty(x,y)); //the Grid class should have a method that check whether spot (x,y) is empty
 
 			items[i].setLocation(x,y); // the Item class should have a method to set its Location to (x,y)
-			grid.setObject(item[i]);	
+			grid.setObject(items[i]);	
 		}
 	}
 	
@@ -80,8 +80,9 @@ public class GameEngine {
 			  }while(x+y<4);
 			  y=8-y;
 			}while(!grid.isEmpty(x,y));
+			ninjas[i]=new Ninja();
 			ninjas[i].setLocation(x,y);// the Ninja class should have a method to set its Location to (x,y)
-			grid.setObejct(ninjas[i]);
+			grid.setObject(ninjas[i]);
 		}
 	}
 		
@@ -89,6 +90,7 @@ public class GameEngine {
 	
 	public void createNewGame()
 	{
+		grid = new Grid();
 		player=new Spy(0,8);//create a new player and set its location at the bottom left
 		//the constructor of the spy should be able to set his location to (x,y) 
 		grid.setObject(player);
@@ -99,7 +101,7 @@ public class GameEngine {
 	
 	public String toString(boolean isDebug)
 	{
-		return grid.ToString(isDebug); //every final Class of the SquareObject should have a toString
+		return grid.toString(isDebug); //every final Class of the SquareObject should have a toString
 										//that returns a printable string 
 	}
 	

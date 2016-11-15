@@ -39,7 +39,9 @@ public class Room extends SquareObject {
 	 * This is the default constructor for the class {@link Room}. This initializes the
 	 * {@link Room} class.
 	 */
-	public Room(){};
+	public Room(int x , int y){
+	 super.setLocation(x, y);	
+	}
 	
 	/**
 	 * This method returns whether {@link Room} contains the briefcase to {@link Spy}.

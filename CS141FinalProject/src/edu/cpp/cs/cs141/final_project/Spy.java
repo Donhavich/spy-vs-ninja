@@ -52,8 +52,8 @@ public class Spy extends SquareObject implements DynamicAgents{
 	 * {@link Spy} has {@link #lives} {@code 3}, {@link #bullet} {@code 1}, and is alive,
 	 * so {@link #isDead} {@code false}.
 	 */
-	public Spy(){
-		super();
+	public Spy(int x,int y){
+		super(x,y);
 		lives = 3;
 		bullet = 1;
 		isDead = false;

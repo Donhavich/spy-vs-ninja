@@ -18,7 +18,10 @@ public class Grid {
   }
 
   public void setObject(SquareObject entity) {
-		Floor[entity.getY()][entity.getX()] = entity;
+	  	if(isEmpty(entity.getX(),entity.getY()))
+	  		Floor[entity.getY()][entity.getX()] = entity;
+	  	else
+	  		System.out.println("Space occupied");
 }
   public boolean isEmpty(int x, int y) {
 		if(Floor[y][x] == null)
@@ -102,7 +105,7 @@ for(int r = 0; r < Floor.length; r++){
  }
 
 public String toString(boolean isDebug){
-    String gridDisplay = null;
+    String gridDisplay = "";
     for(int r = 0; r < Floor.length;r++){
       for(int c = 0; c < Floor[0].length; c++){
         if(Floor[r][c] == null){
