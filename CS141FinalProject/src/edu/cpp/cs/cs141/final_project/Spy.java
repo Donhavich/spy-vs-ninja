@@ -26,7 +26,7 @@ package edu.cpp.cs.cs141.final_project;
  * @author Wing Hung Lau
  *
  */
-public class Spy extends SquareObject implements DynamicAgents{
+public class Spy extends SquareObject{
 
 	/**
 	 * This field is used to keep track of how many {@link #lives} the {@link Spy} has.

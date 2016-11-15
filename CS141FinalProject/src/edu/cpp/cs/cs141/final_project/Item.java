@@ -13,7 +13,7 @@ public abstract class Item extends SquareObject {
 	private boolean isUsed;
 	
 	public Item() {
-		isVisiable=false;
+		isVisible=false;
 		isUsed=false;
 	}
 	
