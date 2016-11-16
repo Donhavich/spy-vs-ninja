@@ -5,7 +5,6 @@ package edu.cpp.cs.cs141.final_project;
 
 import java.util.Random;
 
-
 /**
  * @author Xinyuan Wang
  *
@@ -36,6 +35,8 @@ public class GameEngine {
 	 * This field is a list of {@link Item} that contains all the {@link Item}s in the grid
 	 */
 	private Item[] items;
+	
+
 	
 	/**
 	 * This is a random integer generator generates a random integer between given lower bound and upper bound (inclusive)
@@ -92,6 +93,7 @@ public class GameEngine {
 	 */
 	private void resetItems()
 	{
+	
 		items=new Item[3];
 		items[0]=new Bullet();//add default consturctor
 		items[1]=new Radar();//add default consturctor
@@ -117,7 +119,7 @@ public class GameEngine {
 	private void resetNinjas()
 	{
 		ninjas=new Ninja[6];
-		for(int i=0;i<6;i++)
+		for(int i=0;i<ninjas.length;i++)
 		{
 			int x,y;
 			do{
@@ -133,14 +135,7 @@ public class GameEngine {
 		}
 	}
 		
-	/**
-	 * This method set the current {@link #player} to the left corner of the {@link #grid}
-	 */
-			
-	private void setSpy()
-	{
-		player.setLocation(0, 8);
-	}
+
 	
 	/**
 	 * This method reset the whole {@link #grid} including {@link #rooms}, {@link #ninjas} and {@link #items} but
@@ -150,13 +145,26 @@ public class GameEngine {
 	{
 		grid.clear();//add a method in the Grid class that fill out the whole grid with EmptySpace
 		resetRooms();
-		setSpy();
+		player.setLocation(0, 8);
 		resetItems();
 		resetNinjas();
 	}
+	
+	/**
+	 * This method is to return a String that can illustrate the current state of the {@link #grid} in either
+	 * debug mode or not.
+	 * @param isDebug
+	 * 		{@code true} if is under debug mode,
+	 * 		{@code false} if is under player mode.
+	 * @return
+	 * 		The String showing the current condition of the {@link #grid} under certain mode.
+	 */
 	public String toString(boolean isDebug)
 	{
-		return grid.toString(isDebug);  
+		visionControl(true);
+		String gridString=grid.toString(isDebug);
+		visionControl(false);
+		return gridString;
 	}
 	
 	/**
@@ -233,11 +241,12 @@ public class GameEngine {
 	/**
 	 * This method is used for the {@link #player} to move, and it will return the result of
 	 * the movement
-	 * @param the direction that the player is going to move
-	 * 			'w'-up
-	 * 			's'-down
-	 * 			'a'-left
-	 * 			'd'-right
+	 * @param direction
+	 * the direction that the player is going to move:
+	 * 			['w'-up]
+	 * 			['s'-down]
+	 * 			['a'-left]
+	 * 			['d'-right]
 	 * @return {@literal "noMove"} if the player can't move and nothing happens,
 	 * 		   {@literal "empty"} if the player move to an empty square,
 	 * 		   {@literal "bullet"} if the player move to the item bullet and he gets a bullet,
@@ -248,6 +257,7 @@ public class GameEngine {
 	 */
 	public String playerMove(char direction)
 	{
+		player.enableLook();//add a method to enable to spy to look
 		boolean isMove=false;
 		String reaction="noMove";
 		SquareObject objAhead=getObjAhead(player,direction);
@@ -305,6 +315,227 @@ public class GameEngine {
 			
 		}
 		return reaction;
+	}
+	
+	/**
+	 * This method is used when it is {@link #ninjas}'s turn to take action.
+	 * @return
+	 * {@code true} if a ninja successfully kills the {@link #player}
+	 * {@code false} if the {@link #player} survives
+	 */
+	public boolean ninjaTurn()
+	{
+		boolean isStab=false;
+		for(int i=0;i<ninjas.length;i++)
+		{
+			Ninja thisN=ninjas[i];
+			boolean moved=false;
+			if(!thisN.isDead())
+			{
+				if(thisN.getX()==player.getX()||thisN.getY()==player.getY())
+				{
+					if(Math.abs(thisN.getX()-player.getX())==1||Math.abs(thisN.getY()-player.getY())==1)
+					{
+						moved=true;
+						if(!player.isInvinc()) //add a method in Spy to check whether the spy is invincable
+						{
+							player.beKilled(); //add a method in Spy to be killed
+							isStab=true;
+						}	
+					}
+				//here code for extra credit (AI)
+				}
+				
+				char direction='w';
+				
+				while(moved==false)
+				{
+					int rand=randGen(1,4);
+					
+					switch(rand)
+					{
+					case 1:
+						direction='w';
+						break;
+					case 2:
+						direction='a';
+						break;
+					case 3:
+						direction='s';
+						break;
+					case 4:
+						direction='d';
+						break;
+					}
+					SquareObject objAhead=getObjAhead(thisN,direction);
+					if(objAhead instanceof Room || objAhead==null || objAhead instanceof Ninja)
+					{
+						moved=false;
+					}
+					else
+					{
+						moved=true;
+						grid.moveObject(thisN, objAhead.getX(), objAhead.getY());
+					}
+				}
+			}
+		}//for loop end
+		putBackItem();
+		return isStab;
+	}
+	
+	/**
+	 * This method is used to deal with the condition that {@link #ninjas} may take the spot of {@link #items}. 
+	 * This method would place all the {@link #items} if it's possible.
+	 */
+	private void putBackItem()
+	{
+		for(int i=0;i<3;i++)
+		{
+			if(!items[i].isUsed())
+			{
+				if(grid.getObject(items[i].getX(), items[i].getY()) instanceof EmptySpace)
+					grid.setObject(items[i]);
+			}
+		}
+	}
+
+	/**
+	 * This method let the {@link #player} to look at one of the four direction to check whether
+	 * there is {@link Ninja} ahead. Additionally, this method may also change the direction of 
+	 * the {@link #player}
+	 * @param direction
+	 * the direction that the player is going to look:
+	 * 			['w'-up]
+	 * 			['s'-down]
+	 * 			['a'-left]
+	 * 			['d'-right]
+	 * @return
+	 * 		{@code true} if any enemy is found; {@code false} if no enemy in this direction
+	 */
+	public boolean look(char direction)
+	{
+		player.changeDirection(direction);
+		player.disableLook();//add a method to disable look boolean of Spy
+		boolean hasNinja=false;
+		SquareObject nextObj = getObjAhead(player, direction);
+		while(nextObj!=null)
+		{
+			if(nextObj instanceof Ninja)
+				hasNinja=true;
+			nextObj=getObjAhead(nextObj,direction);
+		}
+		return hasNinja;
+	}
+	
+	/**
+	 * This method allows the {@link #player} to shoot in one direction
+	 * @param direction
+	 * the direction that the player is going to shoot:
+	 * 			['w'-up]
+	 * 			['s'-down]
+	 * 			['a'-left]
+	 * 			['d'-right]
+	 * @return
+	 * 		{@literal "noBullet"} if there is no bullet in order to shoot;
+	 * 		{@literal "kill"} if one of the {@link #ninjas} is killed;
+	 * 		{@literal "notKill"} if the bullet hit nothing
+	 */
+	public String shoot(char direction)
+	{
+		String reaction;
+		if(!player.hasBullet())
+			reaction="noBullet";
+		else
+		{
+			player.loseBullet();
+			SquareObject nextObj = getObjAhead(player,direction);
+			while(nextObj!=null &&!(nextObj instanceof Ninja))
+			{
+				nextObj=getObjAhead(nextObj,direction);
+			}
+			if(nextObj instanceof Ninja)
+			{
+				reaction="kill";
+				((Ninja) nextObj).beKilled();
+				floor.setObject(new EmptySpace(nextObj.getX(),nextObj.getY()));
+				putBackItem();
+			}
+			else
+				reaction="notKill";
+		}
+		return reaction;
+	}
+
+	/**
+	 * This method allows the UI to know whether the {@link #player} has already looked in current turn
+	 * @return
+	 * {@code true} if the player has looked already;
+	 * {@code false} if not yet.
+	 */
+	public boolean playerLookedAlready()
+	{
+		return player.lookedAlready();//add a method to return whether the spy has looked already in current turn
+	}
+	
+	/**
+	 * This method allows UI to know how many remaining turns for the {@link #player} being invincible
+	 * @return
+	 * 			the number of turns in which the {@link #player} stays invincible
+	 */
+	public int turnsOfInvinc()
+	{
+		return player.turnsOfInvinc();//add a method to return the remaining turns of the spy to be invincible
+	}
+	
+	/**
+	 * This method allows UI to know how many bullet that the {@link #player} has
+	 * @return
+	 * 			the number of bullet that the {@link #player} has
+	 */			
+	public int numOfBullet()
+	{
+		return player.getBullet();
+	}
+	
+	
+	/**
+	 * This method allows UI to know whether the {@link #player} runs out of his
+	 * lives and the game is over.If The game is not over yet, the grid will be 
+	 * reset 
+	 * @return
+	 * {@code true} if the game is over;
+	 * {@code false} if this {@link #player} still got another chance to try.
+	 */
+	public boolean isGameOver()
+	{
+		if(player.getLives()<0)
+			return true;
+		else
+		{
+			resetGrid();
+			return false;
+		}
+	}
+	
+	/**
+	 * This method allows UI to know how many lives the {@link #player} has currently.
+	 * @return 
+	 * The current lives that the {@link #player} still has
+	 */
+	public int getLives()
+	{
+		return player.getLives();
+	}
+	
+	public void saveGame(String filename)
+	{
+		
+	}
+	
+	public void loadGame(String filename)
+	{
+		
 	}
 
 
