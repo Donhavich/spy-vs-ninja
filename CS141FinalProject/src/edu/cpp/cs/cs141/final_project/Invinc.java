@@ -1,15 +1,17 @@
 package edu.cpp.cs.cs141.final_project;
 
 public class Invinc extends Item {
-
-	public Invinc() {
+		
+	public Invinc(String itemName) {
+		super(itemName);
 	}
-
-	@Override
-	public String toString(boolean isDebug) {
+	
+	
+	public String toString(boolean isDebug)
+	{
 		if(isDebug)
 			return "[i]";
-		else
+		else 
 			return "[*]";
 	}
 

@@ -9,7 +9,9 @@ package edu.cpp.cs.cs141.final_project;
  */
 public class Radar extends Item {
 
-	public Radar(){}
+	public Radar(String itemName) {
+		super(itemName);
+	}
 	
 	@Override
 	public String toString(boolean isDebug) {

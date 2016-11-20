@@ -8,7 +8,11 @@ package edu.cpp.cs.cs141.final_project;
  *
  */
 public class Bullet extends Item {
-	public Bullet(){}
+	public Bullet(String itemName) {
+		super(itemName);
+	}
+
+	
 
 	@Override
 	public String toString(boolean isDebug) {
