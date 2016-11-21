@@ -10,7 +10,6 @@ package edu.cpp.cs.cs141.final_project;
 public class EmptySpace extends SquareObject {
 
 	
-	
 	public EmptySpace(int x,int y)
 	
 	{
