@@ -49,6 +49,8 @@ public class Spy extends SquareObject{
 	
 	private char direction;
 	
+	private boolean canLook;
+	
 	private int invinc;
 	
 	/**
@@ -56,12 +58,12 @@ public class Spy extends SquareObject{
 	 * {@link Spy} has {@link #lives} {@code 3}, {@link #bullet} {@code 1}, and is alive,
 	 * so {@link #isDead} {@code false}.
 	 */
-	public Spy(int x,int y){
-		super(x,y);
+	public Spy(){
 		lives = 3;
 		bullet = 1;
 		isDead = false;
 		invinc = 0;
+		canLook=true;
 	}
 
 	/**
@@ -106,17 +108,34 @@ public class Spy extends SquareObject{
 		invinc = 5;
 	}
 	
-	public boolean isInvinc() {
-		if(invinc > 0) {
-			return true;
-		}
-		else {
-			return false;
-		}	
+	public int getInvinc() {
+		return invinc;
 	}
+	
+	public void lookControl(boolean control)
+	{
+		canLook=control;
+	}
+	
+	public boolean canLook()
+	{
+		return canLook;
+	}
+	
 	
 	public void weakenInvinc() {
 		invinc--;
+	}
+	
+	public void addBullet()
+	{
+		if(bullet==0)
+			bullet++;
+	}
+	
+	public void shoot()
+	{
+		bullet--;
 	}
 	
 	public void changeDirection(char Direction) {

@@ -12,6 +12,12 @@ public class EmptySpace extends SquareObject {
 	
 	public EmptySpace(){};
 	
+	public EmptySpace(int x,int y)
+	
+	{
+		super(x,y);
+	}
+	
 
 
 	@Override

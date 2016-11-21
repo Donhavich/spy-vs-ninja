@@ -71,7 +71,7 @@ public class Ninja extends SquareObject {
 	 */
 	@Override
 	public String toString(boolean isDebug) {
-		if(isDebug)
+		if(isDebug||this.isVisible())
 			return "[N]";
 		else
 			return "[*]";

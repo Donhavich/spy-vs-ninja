@@ -67,7 +67,7 @@ public class GameEngine {
 	 */
 	public void createNewGame()
 	{
-		player=new Spy();//add default constructor
+		player=new Spy();
 		resetGrid();
 	}
 	
@@ -223,20 +223,20 @@ public class GameEngine {
 	private void visionControl(boolean control)
 	{
 		SquareObject obj1 = getObjAhead(player, player.getDirection()),
-					 obj2 = obj1==null?null:getObjAhead(obj1,player.getDirection());//add a direction field and related method in the Spy class
+					 obj2 = obj1==null?null:getObjAhead(obj1,player.getDirection());
 		if(control==true)
 		{
 			if(obj1!=null)
-				obj1.enableVision();//add methods in SquareObject to control the vision 
+				obj1.visionControl(true); 
 			if(obj2!=null)
-				obj2.enableVision();
+				obj2.visionControl(true);
 		}
 		else
 		{
 			if(obj1!=null)
-				obj1.disableVision();
+				obj1.visionControl(false);
 			if(obj2!=null)
-				obj2.disableVision();
+				obj2.visionControl(false);
 		}
 	}
 	
@@ -259,7 +259,7 @@ public class GameEngine {
 	 */
 	public String playerMove(char direction)
 	{
-		player.enableLook();//add a method to enable to spy to look
+		player.lookControl(false);
 		boolean isMove=false;
 		String reaction="noMove";
 		SquareObject objAhead=getObjAhead(player,direction);
@@ -275,14 +275,14 @@ public class GameEngine {
 			{
 			isMove=true;
 			reaction="bullet";
-			player.getBullet();
+			player.addBullet();
 			((Bullet) objAhead).beingUsed();
 			}
 			else if(objAhead instanceof Radar)
 			{
 				for(int i=0;i<9;i++)
 				{
-					rooms[i].enableVisionOfCase(); //add a method in the Room class to enable the vision of the briefcase
+					rooms[i].radarEffect();
 				}
 				isMove=true;
 				reaction="radar";
@@ -292,7 +292,7 @@ public class GameEngine {
 			{
 				isMove=true;
 				reaction="invincible";
-				player.beInvinc(); //add a method to the Player to make it become invincible
+				player.beInvinc(); 
 				((Invinc) objAhead).beingUsed();
 			}
 			else if(objAhead instanceof Room && direction =='s')
@@ -315,9 +315,9 @@ public class GameEngine {
 		if(isMove)
 		{
 			grid.moveObject(player, objAhead.getX(), objAhead.getY());//add a method in Grid to move the object in the grid
-			player.changeDirection(direction);//add a method in Player class that allows to change his direction
-			if(player.isInvinc() && !(reaction.equals("invincible")) )
-				player.weakenInvinc();//add an method in Spy class to weaken the invincibility
+			player.changeDirection(direction);
+			if(player.getInvinc()>0 && !(reaction.equals("invincible")) )
+				player.weakenInvinc();
 			
 		}
 		return reaction;
@@ -343,9 +343,9 @@ public class GameEngine {
 					if(Math.abs(thisN.getX()-player.getX())==1||Math.abs(thisN.getY()-player.getY())==1)
 					{
 						moved=true;
-						if(!player.isInvinc()) //add a method in Spy to check whether the spy is invincible
+						if(player.getInvinc()==0);
 						{
-							player.beKilled(); //add a method in Spy to be killed
+							player.beAttacked();
 							isStab=true;
 						}	
 					}
@@ -356,7 +356,7 @@ public class GameEngine {
 					}
 				}	
 				
-				if(moved=false)
+				if(!moved)
 					ninjaRamdomMove(thisN);	
 			}
 		}//for loop end
@@ -437,7 +437,7 @@ public class GameEngine {
 	public boolean look(char direction)
 	{
 		player.changeDirection(direction);
-		player.disableLook();//add a method to disable look boolean of Spy
+		player.lookControl(false);
 		boolean hasNinja=false;
 		SquareObject nextObj = getObjAhead(player, direction);
 		while(nextObj!=null)
@@ -465,11 +465,11 @@ public class GameEngine {
 	public String shoot(char direction)
 	{
 		String reaction;
-		if(!player.hasBullet())
+		if(player.getBullet()==0)
 			reaction="noBullet";
 		else
 		{
-			player.loseBullet();
+			player.shoot();
 			SquareObject nextObj = getObjAhead(player,direction);
 			while(nextObj!=null &&!(nextObj instanceof Ninja))
 			{
@@ -478,8 +478,8 @@ public class GameEngine {
 			if(nextObj instanceof Ninja)
 			{
 				reaction="kill";
-				((Ninja) nextObj).beKilled();
-				floor.setObject(new EmptySpace(nextObj.getX(),nextObj.getY()));
+				((Ninja) nextObj).beAttacked();
+				grid.setObject(new EmptySpace(nextObj.getX(),nextObj.getY()));
 				putBackItem();
 			}
 			else
@@ -491,12 +491,12 @@ public class GameEngine {
 	/**
 	 * This method allows the UI to know whether the {@link #player} has already looked in current turn
 	 * @return
-	 * {@code true} if the player has looked already;
-	 * {@code false} if not yet.
+	 * {@code true} if the player still can look;
+	 * {@code false} if the player can't look any more in this turn.
 	 */
-	public boolean playerLookedAlready()
+	public boolean playerCanLook()
 	{
-		return player.lookedAlready();//add a method to return whether the spy has looked already in current turn
+		return player.canLook();//add a method to return whether the spy has looked already in current turn
 	}
 	
 	/**
@@ -506,7 +506,7 @@ public class GameEngine {
 	 */
 	public int turnsOfInvinc()
 	{
-		return player.turnsOfInvinc();//add a method to return the remaining turns of the spy to be invincible
+		return player.getInvinc();
 	}
 	
 	/**

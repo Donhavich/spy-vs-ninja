@@ -35,12 +35,14 @@ public class Room extends SquareObject {
 	 */ 
 	private boolean hasCase=false;
 	
+	private boolean isCaseVisible=false;
+	
 	/**
 	 * This is the default constructor for the class {@link Room}. This initializes the
 	 * {@link Room} class.
 	 */
 	public Room(int x , int y){
-	 super.setLocation(x, y);	
+	 super(x,y);	
 	}
 	
 	/**
@@ -66,6 +68,12 @@ public class Room extends SquareObject {
 		hasCase=true;
 	}
 	
+	public void radarEffect()
+	{
+		isCaseVisible=true;
+	}
+	
+	
 	/**
 	 * This method prints and displays which room has the briefcase.
 	 * @param isDebug
@@ -79,8 +87,10 @@ public class Room extends SquareObject {
 	 */
 	@Override
 	public String toString(boolean isDebug) {
-		if(hasCase&&isDebug)
+		
+		if(hasCase&&(isCaseVisible||isDebug))
 			return "[C]";
+		
 		else
 			return "[R]";
 	}

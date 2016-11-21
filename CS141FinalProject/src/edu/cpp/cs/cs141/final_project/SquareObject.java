@@ -11,6 +11,7 @@ public abstract class SquareObject {
 	
 	private int x;
 	private int y;
+	private boolean isVisible;
 	
 	public SquareObject(){}
 	
@@ -39,6 +40,16 @@ public abstract class SquareObject {
   public int getY()
   {
 	  return y;
+  }
+  
+  public boolean isVisible()
+  {
+	  return isVisible;
+  }
+  
+  public void visionControl(boolean isVisible)
+  {
+	  this.isVisible=isVisible;
   }
 
   
