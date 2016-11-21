@@ -10,20 +10,17 @@ package edu.cpp.cs.cs141.final_project;
 
 public abstract class Item extends SquareObject {
 
-	private String itemName;
 	private boolean isUsed;
-	private boolean isVisible;
 	
-	public Item (String itemName) {
-		this.itemName = itemName;
+	private char symbol;
+
+	
+	public Item (char symbol) {
 		isUsed = false;
-		isVisible = false;
+		this.symbol=symbol;
 	}
 	
 	
-	public String getItemName() {
-		return itemName;
-	}
 	public boolean isUsed()
 	{
 		return isUsed;
@@ -35,15 +32,11 @@ public abstract class Item extends SquareObject {
 	}
 	
 	
-	public boolean isVisible()
-	{
-		return isVisible;
-	}
 	
 	@Override
 	public String toString(boolean isDebug) {
-		if(isDebug)
-			return "[b]";
+		if(isDebug || this.isVisible())
+			return "["+symbol+"]";
 		else 
 			return "[*]";
 
