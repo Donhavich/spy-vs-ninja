@@ -68,7 +68,6 @@ public class GameEngine {
 	public void createNewGame()
 	{
 		player=new Spy();
-		resetGrid();
 	}
 	
 	/**
@@ -141,7 +140,7 @@ public class GameEngine {
 	 * This method reset the whole {@link #grid} including {@link #rooms}, {@link #ninjas} and {@link #items} but
 	 * only the location of the {@link #player};
 	 */
-	private void resetGrid()
+	public void resetGrid()
 	{
 		grid.clear();//add a method in the Grid class that fill out the whole grid with EmptySpace
 		resetRooms();

@@ -33,7 +33,6 @@ public class TextUI {
 		else {
 			isDebug = false;
 		}
-		System.out.println(ge.toString(isDebug));
 	}
 	
 	public void winGame() {
@@ -56,9 +55,9 @@ public class TextUI {
 		System.out.println("Invincibility: " + ge.turnsOfInvinc());
 	}
 	
-	public void ninjaInfo() {
+	/*public void ninjaInfo() {
 		System.out.println("Number of Ninjas: " + ge.numOfNinja());
-	}
+	}*/
 	
 	public void getRadar() {
 		System.out.println("Spy got a radar.");
@@ -103,7 +102,7 @@ public class TextUI {
 	public char chooseMovement() {
 		System.out.println("Choose your movement: [m] Move  [l] Look  [s] Shoot");
 		char c = Input.next().charAt(0);
-		if(c != 'm' || c != 'l' || c != 's') {
+		if(c != 'm' && c != 'l' && c != 's') {
 			invalidInput();
 			c = Input.next().charAt(0);
 		}
@@ -113,7 +112,7 @@ public class TextUI {
 	public char chooseDirection() {
 		System.out.println("Choose the direction that you want to move: [w] Up  [a] Left  [s] Down  [d] Right");
 		char c = Input.next().charAt(0);
-		if(c != 'w' || c != 'a' || c != 's' || c != 'd') {
+		if(c != 'w' && c != 'a' && c != 's' && c != 'd') {
 			invalidInput();
 			c = Input.next().charAt(0);
 		}
@@ -126,10 +125,11 @@ public class TextUI {
 		welcomeMessage();
 		ge.createNewGame();
 		chooseMode();
-		while(!ge.isGameOver() || !winning) {
+		while(!ge.isGameOver() && !winning) {
 			boolean isDead = false;
 			ge.resetGrid();
-			while(!isDead || !winning) {
+			while(!isDead && !winning) {
+				System.out.println(ge.toString(isDebug));
 				char move = chooseMovement();
 				if(move == 'm') {
 					do {
@@ -176,7 +176,7 @@ public class TextUI {
 						break;
 					}
 				}
-		}
+			}
 		}
 		if(!winning) {
 			loseGame();
