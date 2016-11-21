@@ -65,7 +65,7 @@ public class GameEngine {
 	 */
 	public void createNewGame()
 	{
-		player=new Spy();//add default constructor
+		player=new Spy(0,8);//add default constructor
 		resetGrid();
 	}
 	
@@ -127,8 +127,7 @@ public class GameEngine {
 			  }while(x+y<4);
 			  y=8-y;
 			}while(grid.getObject(x,y) instanceof Room);//add a method in Grid to get object
-			ninjas[i]=new Ninja();
-			ninjas[i].setLocation(x,y);
+			ninjas[i]=new Ninja(x,y); //I changed the default constructor of Ninja to take x,y
 			grid.setObject(ninjas[i]);
 		}
 	}

@@ -31,7 +31,7 @@ public abstract class SquareObject {
   /**
   * Returns the individual x and y coordinates of the object.
   */
-  public int  getX()
+  public int getX()
   {
 	  return x;
   }
@@ -40,6 +40,7 @@ public abstract class SquareObject {
   {
 	  return y;
   }
+
   
   public abstract String toString(boolean isDebug);
   

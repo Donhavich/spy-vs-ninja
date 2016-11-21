@@ -2,11 +2,10 @@
  * CS 141: Intro to Programming and Problem Solving
  * Professor: Edwin Rodríguez
  *
- * Final Project Milestone 1
+ * Final Project
  *
  * Description of assignment:
- * 		The first milestone for the final project is to set up the whole architecture,
- * 		including the list of classes, with all the fields and methods.
+ * 		
  *
  * Team: Spirit Coders 
  * 		Wing Hung Lau
@@ -26,7 +25,7 @@ package edu.cpp.cs.cs141.final_project;
  * @author Wing Hung Lau
  *
  */
-public class Ninja extends SquareObject implements DynamicAgents {
+public class Ninja extends SquareObject {
 
 	/**
 	 * This field is used to keep track if {@link Ninja} is dead or still alive.
@@ -40,8 +39,8 @@ public class Ninja extends SquareObject implements DynamicAgents {
 	 * The default constructor for the class {@link Ninja}. Initially a
 	 * {@link Ninja} is alive, so {@link #isDead} {@code false}.
 	 */
-	public Ninja(){
-		super();
+	public Ninja(int x, int y){
+		super(x,y);
 		isDead = false;
 	}
 	
