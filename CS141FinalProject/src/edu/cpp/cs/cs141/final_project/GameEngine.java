@@ -147,6 +147,7 @@ public class GameEngine {
 		grid.clear();//add a method in the Grid class that fill out the whole grid with EmptySpace
 		resetRooms();
 		player.setLocation(0, 8);
+		player.changeDirection('w');
 		resetItems();
 		resetNinjas();
 	}
@@ -249,12 +250,12 @@ public class GameEngine {
 	 * 			['a'-left]
 	 * 			['d'-right]
 	 * @return {@literal "noMove"} if the player can't move and nothing happens,
-	 * 		   {@literal "empty"} if the player move to an empty square,
-	 * 		   {@literal "bullet"} if the player move to the item bullet and he gets a bullet,
-	 * 		   {@literal "radar"} if the player move to the item radar and the briefcase will become visible,
-	 * 	       {@literal "invincible"} if the player move to the item invinc and the invincibility counter of the {@link #player} will turn on,
-	 * 		   {@literal "getCase"} if the player check the room and get the briefcase,
-	 * 		   {@literal "noCase"} if the player check the room and doesn't get the briefcase
+	 * 		   {@literal "moved"} if the player already moved,
+	 * 		   {@literal "bullet"} if the player moves to the item bullet and he gets a bullet,
+	 * 		   {@literal "radar"} if the player moves to the item radar and the briefcase will become visible,
+	 * 	       {@literal "invincible"} if the player moves to the item invinc and the invincibility counter of the {@link #player} will turn on,
+	 * 		   {@literal "getCase"} if the player checks the room and get the briefcase,
+	 * 		   {@literal "noCase"} if the player checks the room and doesn't get the briefcase
 	 */
 	public String playerMove(char direction)
 	{
@@ -268,7 +269,7 @@ public class GameEngine {
 			if(objAhead instanceof EmptySpace)
 			{
 			isMove=true;
-			reaction="empty";
+			reaction="moved";
 			}
 			else if( objAhead instanceof Bullet)
 			{
@@ -305,13 +306,17 @@ public class GameEngine {
 					reaction="noCase";
 				}
 			}
+			else if(objAhead instanceof Ninja)
+			{
+				reaction="moved";
+			}
 		}
 		
 		if(isMove)
 		{
 			grid.moveObject(player, objAhead.getX(), objAhead.getY());//add a method in Grid to move the object in the grid
 			player.changeDirection(direction);//add a method in Player class that allows to change his direction
-			if(player.isInvinc())
+			if(player.isInvinc() && !(reaction.equals("invincible")) )
 				player.weakenInvinc();//add an method in Spy class to weaken the invincibility
 			
 		}
@@ -338,51 +343,66 @@ public class GameEngine {
 					if(Math.abs(thisN.getX()-player.getX())==1||Math.abs(thisN.getY()-player.getY())==1)
 					{
 						moved=true;
-						if(!player.isInvinc()) //add a method in Spy to check whether the spy is invincable
+						if(!player.isInvinc()) //add a method in Spy to check whether the spy is invincible
 						{
 							player.beKilled(); //add a method in Spy to be killed
 							isStab=true;
 						}	
 					}
-				//here code for extra credit (AI)
-				}
-				
-				char direction='w';
-				
-				while(moved==false)
-				{
-					int rand=randGen(1,4);
 					
-					switch(rand)
-					{
-					case 1:
-						direction='w';
-						break;
-					case 2:
-						direction='a';
-						break;
-					case 3:
-						direction='s';
-						break;
-					case 4:
-						direction='d';
-						break;
-					}
-					SquareObject objAhead=getObjAhead(thisN,direction);
-					if(objAhead instanceof Room || objAhead==null || objAhead instanceof Ninja)
-					{
-						moved=false;
-					}
 					else
 					{
-						moved=true;
-						grid.moveObject(thisN, objAhead.getX(), objAhead.getY());
+						//add AI here
 					}
-				}
+				}	
+				
+				if(moved=false)
+					ninjaRamdomMove(thisN);	
 			}
 		}//for loop end
 		putBackItem();
 		return isStab;
+	}
+	
+	/**
+	 * This is a private method that is for a {@link Ninja} to move randomly.
+	 * @param thisN
+	 * 				The {@link Ninja} that is going to move
+	 */
+	private void ninjaRamdomMove(Ninja thisN)
+	{
+		char direction='w';
+		boolean moved=false;
+		while(moved==false)
+		{
+			int rand=randGen(1,4);
+			
+			switch(rand)
+			{
+			case 1:
+				direction='w';
+				break;
+			case 2:
+				direction='a';
+				break;
+			case 3:
+				direction='s';
+				break;
+			case 4:
+				direction='d';
+				break;
+			}
+			SquareObject objAhead=getObjAhead(thisN,direction);
+			if(objAhead instanceof Room || objAhead==null || objAhead instanceof Ninja)
+			{
+				moved=false;
+			}
+			else
+			{
+				moved=true;
+				grid.moveObject(thisN, objAhead.getX(), objAhead.getY());
+			}
+		}
 	}
 	
 	/**
