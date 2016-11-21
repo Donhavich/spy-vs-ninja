@@ -26,7 +26,7 @@ package edu.cpp.cs.cs141.final_project;
  * @author Wing Hung Lau
  *
  */
-public class Spy extends SquareObject implements DynamicAgents{
+public class Spy extends SquareObject{
 
 	/**
 	 * This field is used to keep track of how many {@link #lives} the {@link Spy} has.
@@ -47,6 +47,10 @@ public class Spy extends SquareObject implements DynamicAgents{
 	 */
 	private boolean isDead;
 	
+	private char direction;
+	
+	private int invinc;
+	
 	/**
 	 * The default constructor for the class {@link Spy}. Initially a
 	 * {@link Spy} has {@link #lives} {@code 3}, {@link #bullet} {@code 1}, and is alive,
@@ -57,6 +61,7 @@ public class Spy extends SquareObject implements DynamicAgents{
 		lives = 3;
 		bullet = 1;
 		isDead = false;
+		invinc = 0;
 	}
 
 	/**
@@ -65,6 +70,7 @@ public class Spy extends SquareObject implements DynamicAgents{
 	 */
 	public void beAttacked() {
 		isDead = true;
+		lives--;
 	}
 	
 	/**
@@ -90,6 +96,31 @@ public class Spy extends SquareObject implements DynamicAgents{
 	 */
 	public int getBullet() {
 		return bullet;
+	}
+	
+	public char getDirection() {
+		return direction;
+	}
+	
+	public void beInvinc() {
+		invinc = 5;
+	}
+	
+	public boolean isInvinc() {
+		if(invinc > 0) {
+			return true;
+		}
+		else {
+			return false;
+		}	
+	}
+	
+	public void weakenInvinc() {
+		invinc--;
+	}
+	
+	public void changeDirection(char Direction) {
+		direction = Direction;
 	}
 	
 	/**
