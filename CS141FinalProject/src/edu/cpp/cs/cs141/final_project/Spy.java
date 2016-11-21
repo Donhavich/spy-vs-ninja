@@ -60,10 +60,16 @@ public class Spy extends SquareObject{
 	 */
 	public Spy(){
 		lives = 3;
-		bullet = 1;
-		isDead = false;
-		invinc = 0;
+		this.resetSpy();
+	}
+	
+	public void resetSpy()
+	{
+		bullet=1;
+		isDead=false;
+		invinc=0;
 		canLook=true;
+		direction='w';
 	}
 
 	/**

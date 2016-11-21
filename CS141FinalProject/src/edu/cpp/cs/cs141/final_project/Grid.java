@@ -39,10 +39,8 @@ public class Grid {
    * 	This parameter is the object that is passed to the method
    */
   public void setObject(SquareObject entity) {
-	  	if(isEmpty(entity.getX(),entity.getY()))
 	  		Floor[entity.getY()][entity.getX()] = entity;
-	  	else
-	  		System.out.println("Space occupied");
+
   }
   /**
    * This method returns a boolean value depending on whether the given index for the array contains 
@@ -56,7 +54,7 @@ public class Grid {
    * if there is something else
    */
   public boolean isEmpty(int x, int y) {
-		if(Floor[y][x] == null)
+		if(Floor[y][x] instanceof EmptySpace)
 			return true;
 		else
 			return false;
@@ -73,13 +71,6 @@ public String toString(boolean isDebug){
     String gridDisplay = "";
     for(int r = 0; r < Floor.length;r++){
       for(int c = 0; c < Floor[0].length; c++){
-        if(Floor[r][c] == null){
-          if(isDebug)
-            gridDisplay += "[ ]";
-          else
-            gridDisplay += "[*]";
-        }
-        else
           gridDisplay += Floor[r][c].toString(isDebug);
       }
       gridDisplay += "\n";
@@ -107,7 +98,7 @@ public SquareObject getObject(int x, int y) {
 public void clear() {
 	for(int r = 0; r < FLOOR_SIZE; r++){
 		for(int c = 0; c < FLOOR_SIZE; c++)
-			Floor[r][c] = new EmptySpace();
+			Floor[r][c] = new EmptySpace(c,r);
 	}
 	
 }
@@ -131,7 +122,7 @@ public int size() {
  * 		The new y-coordinate for the {@link Ninja} object
  */
 public void moveObject(Ninja thisN, int x, int y) {
-	Floor[thisN.getY()][thisN.getX()] = new EmptySpace();
+	Floor[thisN.getY()][thisN.getX()] = new EmptySpace(thisN.getX(),thisN.getY());
 	thisN.setLocation(x, y);
 	Floor[thisN.getY()][thisN.getX()] = thisN;
 	
@@ -147,7 +138,7 @@ public void moveObject(Ninja thisN, int x, int y) {
  * 		The new y-coordinate for the {@link Spy} object
  */
 public void moveObject(Spy player, int x, int y) {
-	Floor[player.getY()][player.getX()] = new EmptySpace();
+	Floor[player.getY()][player.getX()] = new EmptySpace(player.getX(),player.getY());
 	player.setLocation(x, y);
 	Floor[player.getY()][player.getX()] = player;
 	

@@ -10,7 +10,6 @@ package edu.cpp.cs.cs141.final_project;
 public class EmptySpace extends SquareObject {
 
 	
-	public EmptySpace(){};
 	
 	public EmptySpace(int x,int y)
 	
@@ -22,7 +21,7 @@ public class EmptySpace extends SquareObject {
 
 	@Override
 	public String toString(boolean isDebug) {
-		if(isDebug)
+		if(isDebug||this.isVisible())
 			return "[ ]";
 		else
 			return "[*]";

@@ -146,7 +146,8 @@ public class GameEngine {
 		grid.clear();//add a method in the Grid class that fill out the whole grid with EmptySpace
 		resetRooms();
 		player.setLocation(0, 8);
-		player.changeDirection('w');
+		player.resetSpy();
+		grid.setObject(player);
 		resetItems();
 		resetNinjas();
 	}
@@ -308,6 +309,9 @@ public class GameEngine {
 			else if(objAhead instanceof Ninja)
 			{
 				reaction="moved";
+				if(player.getInvinc()>0)
+				player.weakenInvinc();
+				
 			}
 		}
 		
@@ -342,7 +346,7 @@ public class GameEngine {
 					if(Math.abs(thisN.getX()-player.getX())==1||Math.abs(thisN.getY()-player.getY())==1)
 					{
 						moved=true;
-						if(player.getInvinc()==0);
+						if(player.getInvinc()==0)
 						{
 							player.beAttacked();
 							isStab=true;
