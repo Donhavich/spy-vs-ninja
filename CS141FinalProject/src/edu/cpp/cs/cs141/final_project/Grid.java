@@ -27,7 +27,7 @@ public class Grid {
    */
   private Item [] placeHolder = new Item [3];
   /**
-   * This default constructor initializes the 2-Dimensional array to be used for the program
+   * This default constructor initializes the {@link #Floor} array to be used for the program
    */
   public Grid(){
 	  Floor = new SquareObject [FLOOR_SIZE][FLOOR_SIZE];
@@ -85,6 +85,72 @@ public String toString(boolean isDebug){
       gridDisplay += "\n";
     }
     return gridDisplay;
+}
+/**
+ * This method returns an instance of the {@link SquareObject} within the 
+ * given index from the parameters
+ * @param x
+ * 		The x-coordinate of the {@link #Floor} array 
+ * @param y
+ * 		The y-coordinate of the {@link #Floor} array
+ * @return
+ * 		An instance of the {@link SquareObject} is returned
+ */		
+
+public SquareObject getObject(int x, int y) {
+	return Floor[y][x];
+}
+/**
+ * This method resets the {@link #Floor} array be assigning all indexes an
+ * instance of the {@link EmptySpace} class
+ */
+public void clear() {
+	for(int r = 0; r < FLOOR_SIZE; r++){
+		for(int c = 0; c < FLOOR_SIZE; c++)
+			Floor[r][c] = new EmptySpace();
+	}
+	
+}
+/**
+ * This method returns the size of the {@link #Floor} array's size
+ * @return
+ * 		An int value of the {@link #Floor} array's size from the field
+ * 		{@code #FLOOR_SIZE}
+ */
+public int size() {
+	return FLOOR_SIZE;
+}
+/**
+ * This method moves the passed {@link Ninja} object to a new location
+ * given by the parameters x and y
+ * @param thisN
+ * 		The {@link Ninja} object that is moving to a new location
+ * @param x
+ * 		The new x-coordinate for the {@link Ninja} object
+ * @param y
+ * 		The new y-coordinate for the {@link Ninja} object
+ */
+public void moveObject(Ninja thisN, int x, int y) {
+	Floor[thisN.getY()][thisN.getX()] = new EmptySpace();
+	thisN.setLocation(x, y);
+	Floor[thisN.getY()][thisN.getX()] = thisN;
+	
+}
+/**
+ This method moves the passed {@link Spy} object to a new location
+ * given by the parameters x and y
+ * @param thisN
+ * 		The {@link Spy} object that is moving to a new location
+ * @param x
+ * 		The new x-coordinate for the {@link Spy} object
+ * @param y
+ * 		The new y-coordinate for the {@link Spy} object
+ */
+public void moveObject(Spy player, int x, int y) {
+	Floor[player.getY()][player.getX()] = new EmptySpace();
+	player.setLocation(x, y);
+	Floor[player.getY()][player.getX()] = player;
+	
 }
 
 }
