@@ -7,8 +7,9 @@ package edu.cpp.cs.cs141.final_project;
  * @author
  *
  */
+
 public abstract class Item extends SquareObject {
-	
+
 	private String itemName;
 	private boolean isUsed;
 	private boolean isVisible;
@@ -18,6 +19,7 @@ public abstract class Item extends SquareObject {
 		isUsed = false;
 		isVisible = false;
 	}
+	
 	
 	public String getItemName() {
 		return itemName;
@@ -38,6 +40,13 @@ public abstract class Item extends SquareObject {
 		return isVisible;
 	}
 	
+	@Override
+	public String toString(boolean isDebug) {
+		if(isDebug)
+			return "[b]";
+		else 
+			return "[*]";
 
 	
+	}
 }
