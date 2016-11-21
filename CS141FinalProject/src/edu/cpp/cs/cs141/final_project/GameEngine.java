@@ -96,9 +96,9 @@ public class GameEngine {
 	{
 	
 		items=new Item[3];
-		items[0]=new Bullet();//add default consturctor
-		items[1]=new Radar();//add default consturctor
-		items[2]=new Invinc();//add default consturctor
+		items[0]=new Bullet();
+		items[1]=new Radar();
+		items[2]=new Invinc();
 		for(int i=0;i<3;i++)
 		{
 			int x,y;
@@ -130,8 +130,7 @@ public class GameEngine {
 			  }while(x+y<4);
 			  y=8-y;
 			}while(grid.getObject(x,y) instanceof Room);//add a method in Grid to get object
-			ninjas[i]=new Ninja();
-			ninjas[i].setLocation(x,y);
+			ninjas[i]=new Ninja(x,y);
 			grid.setObject(ninjas[i]);
 		}
 	}
