@@ -10,21 +10,40 @@ import java.io.*;
  */
 public class DataSave implements Serializable {
 	
+	private Spy player;
 	
-	try{
-		FileOutputStream dataSave = new FileOutputStream("filename.dat");
-		
-		ObjectOutputStream save  = new ObjectOutputStream(dataSave);
-		
-		save.writeObject(player)
-		save.writeObject(ninjas);
-		save.writeObject(items);
-		save.writeObject(rooms);
-		
-		
-		save.close();
+	private Ninja[] ninjas;
+	
+	private Room[] rooms;
+	
+	private Item[] items;
+	
+	public DataSave(Spy player,Ninja[] ninjas,Room[] rooms,Item[] items)
+	{
+		this.player=player;
+		this.ninjas=ninjas;
+		this.rooms=rooms;
+		this.items=items;
 	}
-	catch (IO Exception e){
-		e.printStackTrace();
+	
+	public Spy getSpy()
+	{
+		return player;
 	}
+	
+	public Ninja[] getNinjas()
+	{
+		return ninjas;
+	}
+	
+	public Room[] getRooms()
+	{
+		return rooms;
+	}
+	
+	public Item[] getItems()
+	{
+		return items;
+	}
+	
 }

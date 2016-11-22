@@ -21,17 +21,30 @@ public class Grid {
   * of the {@link SquareObject} class
   */
   private SquareObject [][] Floor;
-  /**
-   * The purpose of this field is to hold an {@link Item} object when ever a {@link Ninja} object 
-   * is moving to the same index as that of the {@link Item} object
-   */
-  private Item [] placeHolder = new Item [3];
+
   /**
    * This default constructor initializes the {@link #Floor} array to be used for the program
    */
   public Grid(){
 	  Floor = new SquareObject [FLOOR_SIZE][FLOOR_SIZE];
+	  this.clear();
   }
+  
+  public Grid(Spy player,Ninja[] ninjas,Room[] rooms){
+	  this();
+	  this.setObject(player);
+	  for(Ninja thisN:ninjas)
+	  {
+		  if(!(thisN.isDead()))
+		  this.setObject(thisN);
+	  }
+	  for(Room thisR:rooms)
+		  this.setObject(thisR);
+  }
+  
+  
+  
+  
   /**
    * This method assigns all objects that are all subclasses of the superclass {@link SquareObject} to the array
    * based on the coordinates given to the entity object

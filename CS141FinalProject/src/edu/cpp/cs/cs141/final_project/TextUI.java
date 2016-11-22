@@ -3,6 +3,7 @@
  */
 package edu.cpp.cs.cs141.final_project;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -18,7 +19,7 @@ public class TextUI {
 	public TextUI(GameEngine ge)
 	{
 		this.ge=ge;
-		isDebug = false;
+		isDebug = true;
 	}
 	
 	public void welcomeMessage() {
@@ -55,10 +56,6 @@ public class TextUI {
 		System.out.println("Invincibility: " + ge.turnsOfInvinc());
 	}
 	
-	/*public void ninjaInfo() {
-		System.out.println("Number of Ninjas: " + ge.numOfNinja());
-	}*/
-	
 	public void getRadar() {
 		System.out.println("Spy got a radar.");
 	}
@@ -80,7 +77,7 @@ public class TextUI {
 	}
 	
 	public void ninjasAppear() {
-		System.out.println("There is/are ninja(s).");
+		System.out.println("There is/are ninja(s) ahead of you.");
 	}
 	
 	public void ninjasNotAppear() {
@@ -102,7 +99,7 @@ public class TextUI {
 	public char chooseMovement() {
 		System.out.println("Choose your movement: [m] Move  [l] Look  [s] Shoot");
 		char c = Input.next().charAt(0);
-		if(c != 'm' && c != 'l' && c != 's') {
+		while(c != 'm' && c != 'l' && c != 's') {
 			invalidInput();
 			c = Input.next().charAt(0);
 		}
@@ -112,31 +109,42 @@ public class TextUI {
 	public char chooseDirection() {
 		System.out.println("Choose the direction that you want to move: [w] Up  [a] Left  [s] Down  [d] Right");
 		char c = Input.next().charAt(0);
-		if(c != 'w' && c != 'a' && c != 's' && c != 'd') {
+		while(c != 'w' && c != 'a' && c != 's' && c != 'd') {
 			invalidInput();
 			c = Input.next().charAt(0);
 		}
 		return c;
 	}	
 	
-	public void StartNewGame() {
+	private String Info()
+	{
+		return "lives:"+ge.getLives()+"|bullet:"+ge.numOfBullet()+"|invincible:"+ge.turnsOfInvinc();
+		
+	}
+	
+	public void StartNewGame() throws IOException, ClassNotFoundException {
 		boolean winning = false;
-		boolean noMove = false;
+	
 		welcomeMessage();
 		ge.createNewGame();
 		chooseMode();
+		
 		while(!ge.isGameOver() && !winning) {
 			boolean isDead = false;
-			ge.resetGrid();
+			ge.resetPlayer();
 			while(!isDead && !winning) {
 				System.out.println(ge.toString(isDebug));
+				System.out.println(this.Info());
 				char move = chooseMovement();
 				if(move == 'm') {
+					boolean noMove;
 					do {
+						noMove=false;
 						char direction = chooseDirection();
 						String action = ge.playerMove(direction);
 						switch(action) {
 						case "noMove": noMove = true;
+						System.out.println("cant move there");
 							break;
 						case "noCase": emptyRooms();
 							break;
@@ -153,6 +161,12 @@ public class TextUI {
 					} while(noMove);
 					if(!winning) {
 						isDead = ge.ninjaTurn();
+						if(isDead)
+						{
+							System.out.println("you are dead");
+							Input.nextLine();
+							Input.nextLine();
+						}
 					}
 				}
 				else if(move == 'l') {
