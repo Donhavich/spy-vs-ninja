@@ -20,7 +20,7 @@ public class Main {
 		
 		GameEngine ge=new GameEngine();
 		TextUI TUI=new TextUI(ge);
-		TUI.StartNewGame();
+		TUI.mainLoop();
 
 	}
 

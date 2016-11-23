@@ -73,6 +73,9 @@ public class GameEngine {
 		resetNinjas();
 	}
 	
+	/**
+	 * This method is to reset the {@link #player} when he/she dies but not game over yet.
+	 */
 	public void resetPlayer()
 	{
 		player.resetSpy();
@@ -116,16 +119,21 @@ public class GameEngine {
 				x=randGen(0,8);
 				y=randGen(0,8);
 			   
-			}while(!(grid.getObject(x,y) instanceof EmptySpace)); //add a method in Grid to get object
+			}while(!(grid.getObject(x,y) instanceof EmptySpace));
 			items[i].setLocation(x,y); 
 			grid.setObject(items[i]);	
 		}
 	}
 	
+	/**
+	 * This method is for ensuring that there is no enemy in {@link #ninjas} that is located at
+	 * the safe zone
+	 */
 	private void safeZoneCheck()
 	{
 		for(Ninja thisN:ninjas)
 		{
+			thisN.visionControl(false);
 			if(thisN.isDead());
 			else
 			{
@@ -277,7 +285,7 @@ public class GameEngine {
 	 */
 	public String playerMove(char direction)
 	{
-		player.lookControl(false);
+		player.lookControl(true);
 		boolean isMove=false;
 		String reaction="noMove";
 		SquareObject objAhead=getObjAhead(player,direction);
@@ -368,6 +376,7 @@ public class GameEngine {
 						{
 							player.beAttacked();
 							isStab=true;
+							thisN.visionControl(true);
 						}	
 					}
 					

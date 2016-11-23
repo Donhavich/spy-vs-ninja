@@ -19,181 +19,341 @@ public class TextUI {
 	public TextUI(GameEngine ge)
 	{
 		this.ge=ge;
-		isDebug = true;
+		isDebug = false;
 	}
 	
-	public void welcomeMessage() {
-		System.out.println("Game starts.");
-	}
-	
-	public void chooseMode() {
-		System.out.println("Would you like to enter Debug Mode? \n 1. Yes 	2. No");
-		if(Input.nextInt() == 1) {
-			isDebug = true;
-		}
-		else {
-			isDebug = false;
-		}
-	}
-	
-	public void winGame() {
-		System.out.print("Spy won the game.");
-	}
-
-	public void loseGame() {
-		System.out.print("Spy lost the game.");
-	}
-	
-	public void spyLives() {
-		System.out.println("Lives: " + ge.getLives());
-	}
-	
-	public void spyBullets() {
-		System.out.println("Bullet: " + ge.numOfBullet());
-	}
-	
-	public void spyInvinc() {
-		System.out.println("Invincibility: " + ge.turnsOfInvinc());
-	}
-	
-	public void getRadar() {
-		System.out.println("Spy got a radar.");
-	}
-	
-	public void getInvinc() {
-		System.out.println("Spy will be invincible for 5 turns.");
-	}
-	
-	public void getBullet() {
-		System.out.println("Spy's gun is reloaded.");
-	}
-	
-	public void emptyRooms() {
-		System.out.println("This room is empty.");
-	}
-	
-	public void invalidInput() {
-		System.out.println("Invalid input. Please input again.");
-	}
-	
-	public void ninjasAppear() {
-		System.out.println("There is/are ninja(s) ahead of you.");
-	}
-	
-	public void ninjasNotAppear() {
-		System.out.println("There is/are no ninja(s).");
-	}
-	
-	public void zeroBullet() {
-		System.out.println("There is zero bullet.");
-	}
-	
-	public void killedNinjas() {
-		System.out.println("You killed a ninja.");
-	}
-	
-	public void failedToKillNinjas() {
-		System.out.println("You failed to kill a ninja.");
-	}
-	
-	public char chooseMovement() {
-		System.out.println("Choose your movement: [m] Move  [l] Look  [s] Shoot");
-		char c = Input.next().charAt(0);
-		while(c != 'm' && c != 'l' && c != 's') {
-			invalidInput();
-			c = Input.next().charAt(0);
-		}
-		return c;
-	}
-	
-	public char chooseDirection() {
-		System.out.println("Choose the direction that you want to move: [w] Up  [a] Left  [s] Down  [d] Right");
-		char c = Input.next().charAt(0);
-		while(c != 'w' && c != 'a' && c != 's' && c != 'd') {
-			invalidInput();
-			c = Input.next().charAt(0);
-		}
-		return c;
-	}	
-	
-	private String Info()
+	public void mainLoop()
 	{
-		return "lives:"+ge.getLives()+"|bullet:"+ge.numOfBullet()+"|invincible:"+ge.turnsOfInvinc();
+		welcomeMessage();
+		char choice;
+		do
+		{
+			choice=mainMenu();
+			switch(choice)
+			{
+			case '1':
+				StartNewGame();
+				break;
+			case'2':
+				loadGame();
+				break;
+			case'3':
+				//help();
+			}
+			
+			
+			
+		}while(choice!='4');
 		
 	}
 	
-	public void StartNewGame() throws IOException, ClassNotFoundException {
-		boolean winning = false;
+
+	private char mainMenu()
+	{
+		System.out.println("1.New Game");
+		System.out.println("2.Load Game");
+		System.out.println("3.Help");
+		System.out.println("4.exit");
+		char choice= Input.nextLine().charAt(0);
+		while(choice!='1'&&choice!='2'&&choice!='3'&&choice!='4')
+		{
+			invalidInput();
+			choice = Input.next().charAt(0);
+		}
+		return choice;
+	}
 	
-		welcomeMessage();
-		ge.createNewGame();
-		chooseMode();
+	private void StartNewGame() 
+	{
 		
-		while(!ge.isGameOver() && !winning) {
+		ge.createNewGame();
+		gameLoop();
+		
+	}
+	
+	
+	
+	private void loadGame()
+	{
+		System.out.println("Please enter the name of the file that you have saved the game:");
+		String fileName=Input.nextLine();
+		boolean loaded=false;
+		while(!loaded)
+		{
+			try 
+			{
+				ge.loadGame(fileName);
+				loaded=true;
+			} 
+			catch (java.io.FileNotFoundException e) 
+			{
+				System.out.println("File was not found! Please try again!");
+				fileName=Input.nextLine();
+			} 
+			catch (ClassNotFoundException|IOException e) 
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		
+		gameLoop();
+	}
+	
+	private void gameLoop()
+	{
+		boolean winning = false;
+		
+		mainloop:
+		while(!ge.isGameOver() && !winning) 
+		{
 			boolean isDead = false;
-			ge.resetPlayer();
 			while(!isDead && !winning) {
-				System.out.println(ge.toString(isDebug));
-				System.out.println(this.Info());
+				
+				this.printInfo();
 				char move = chooseMovement();
-				if(move == 'm') {
+				
+				if(move == 'm') 
+				{
 					boolean noMove;
 					do {
 						noMove=false;
 						char direction = chooseDirection();
 						String action = ge.playerMove(direction);
-						switch(action) {
-						case "noMove": noMove = true;
-						System.out.println("cant move there");
+						switch(action) 
+						{
+						case "noMove": 
+							noMove = true;
+							cantMove();
 							break;
-						case "noCase": emptyRooms();
+						case "noCase": 
+							emptyRooms();
 							break;
-						case "bullet:": getBullet();
+						case "bullet": 
+							getBullet();
 							break;
-						case "radar": getRadar();
+						case "radar": 
+							getRadar();
 							break;
-						case "invincible": getInvinc();
+						case "invincible": 
+							getInvinc();
 							break;
-						case "getCase": winGame();
+						case "getCase": 
+							winGame();
 							winning = true;
 							break;
 						}
 					} while(noMove);
-					if(!winning) {
+					
+					if(!winning) 
+					{
 						isDead = ge.ninjaTurn();
 						if(isDead)
 						{
-							System.out.println("you are dead");
-							Input.nextLine();
-							Input.nextLine();
+							this.printInfo();
+							ge.resetPlayer();
+							this.playerBeingKilled();
 						}
 					}
 				}
-				else if(move == 'l') {
-					char direction = chooseDirection();
-					if(ge.look(direction)) {
-						ninjasAppear();
+				
+				else if(move == 'l') 
+				{
+					if(ge.playerCanLook())
+					{
+						char direction = chooseDirection();
+						if(ge.look(direction)) 
+							ninjasAppear();
+						else
+							ninjasNotAppear();
 					}
-					else {
-						ninjasNotAppear();
+					else
+					{
+						System.out.println("You can't look any more at this turn! Please try other movements!");
+						pause();
 					}
+					
+
 				}
+				
 				else if(move == 's') {
 					char direction = chooseDirection();
 					String action = ge.shoot(direction);
-					switch(action) {
-					case "noBullet" : zeroBullet();
+					switch(action) 
+					{
+					case "noBullet" : 
+						zeroBullet();
 						break;
-					case "kill" : killedNinjas();
+					case "kill" : 
+						killedNinjas();
 						break;
-					case "notKill" : failedToKillNinjas();
+					case "notKill" : 
+						failedToKillNinjas();
 						break;
 					}
 				}
+				
+				else if(move == '!')
+				{
+					System.out.println("Please enter the name of the file you want to save in:");
+					String filename =Input.nextLine();
+					try 
+					{
+						ge.saveGame(filename);
+					} 
+					catch (IOException e) 
+					{
+						e.printStackTrace();
+					}
+					break mainloop;
+				}
 			}
 		}
-		if(!winning) {
-			loseGame();
-		}
+		
+		if(ge.isGameOver())
+			this.loseGame();
+		else
+			pause();
+		
 	}
+
+
+	
+	public void welcomeMessage() {
+		System.out.println("---------------------------------------------Death Task---------------------------------------------------");
+		System.out.println("As a top spy in the world, you are sent to carry out this dangerous but yet glorious task by your country!");
+	}
+	
+	public boolean switchMode(char c) {
+		if(c=='*')
+		{
+			if(isDebug)
+				isDebug=false;
+			else
+				isDebug=true;
+			this.printInfo();
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	
+	private void pause()
+	{
+		System.out.println("[Press Enter to continue]");
+		Input.nextLine();
+	}
+	
+	private void winGame() {
+		System.out.println("You got the briefcase! You won the game!");
+		pause();
+	}
+
+	private void loseGame() {
+		System.out.println("The game is over! You lost!");
+		pause();
+	}
+	
+	private void getRadar() {
+		System.out.println("You got a radar and the location of the briefcase has been deteched.");
+		pause();
+	}
+	
+	private void getInvinc() {
+		System.out.println("You will be invincible for 5 turns.");
+		pause();
+	}
+	
+	private void getBullet() {
+		System.out.println("You found a bullet. Your gun is reloaded.");
+		pause();
+	}
+	
+	private void emptyRooms() {
+		System.out.println("Sorry, this room is empty. Try another one.");
+		pause();
+	}
+	
+	private void invalidInput() {
+		System.out.println("Invalid input. Please input again.");
+		pause();
+	}
+	
+	private void ninjasAppear() {
+		System.out.println("DANGER AHEAD!");
+		pause();
+	}
+	
+	private void ninjasNotAppear() {
+		System.out.println("Safe ahead.");
+		pause();
+	}
+	
+	private void zeroBullet() {
+		System.out.println("You run out of bullet.");
+		pause();
+	}
+	
+	private void killedNinjas() {
+		System.out.println("You killed a ninja.");
+		pause();
+	}
+	
+	private void failedToKillNinjas() {
+		System.out.println("You hit nothing.");
+		pause();
+	}
+	
+	public char chooseMovement() {
+		System.out.println("Choose your movement: [m] Move  [l] Look  [s] Shoot \n[*] Switch mode [!] Save & Quit");
+		char c = Input.nextLine().charAt(0);
+		while( c!='!' && c != 'm' && c != 'l' && c != 's') {
+			if(this.switchMode(c))
+				System.out.println("Choose your movement: [m] Move  [l] Look  [s] Shoot \n[*] Switch mode [!] Save & Quit");
+			else
+			{
+				invalidInput();
+			}
+			c = Input.nextLine().charAt(0);
+		}
+		return c;
+	}
+	
+	public char chooseDirection() {
+		System.out.println("Choose a direction: [w] Up  [a] Left  [s] Down  [d] Right \n[*] Switch mode");
+		char c = Input.nextLine().charAt(0);
+		while(c != 'w' && c != 'a' && c != 's' && c != 'd') {
+			if(this.switchMode(c))
+				System.out.println("Choose a direction: [w] Up  [a] Left  [s] Down  [d] Right \n[*] Switch mode");
+			else
+			{
+				invalidInput();
+			}
+			c = Input.nextLine().charAt(0);
+		}
+		return c;
+	}	
+	
+	private void cantMove()
+	{
+		System.out.println("You can't move there. Try again!");
+		pause();
+	}
+	
+	private void printInfo()
+	{
+		System.out.println();
+		System.out.println(ge.toString(isDebug));
+		System.out.println("lives:"+ge.getLives()+"|bullet:"+ge.numOfBullet()+"|invincible:"+ge.turnsOfInvinc()+"\n");
+		
+	}
+	private void playerBeingKilled()
+	{
+		System.out.println("You were KILLED by an ninja!");
+		pause();
+	}
+	
 }
+	
+	
