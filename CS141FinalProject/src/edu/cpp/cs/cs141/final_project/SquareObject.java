@@ -3,11 +3,13 @@
  */
 package edu.cpp.cs.cs141.final_project;
 
+import java.io.Serializable;
+
 /**
  * @author
  *
  */
-public abstract class SquareObject {
+public abstract class SquareObject implements Serializable {
 	
 	private int x;
 	private int y;

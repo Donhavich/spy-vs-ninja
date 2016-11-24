@@ -58,9 +58,7 @@ public class GameEngine {
 	 * default constructor: get an empty grid ready
 	 */
 	public GameEngine()
-	{
-		grid=new Grid();
-	}
+	{}
 	
 	/**
 	 * This method is to set up a new game with a new player
@@ -68,6 +66,22 @@ public class GameEngine {
 	public void createNewGame()
 	{
 		player=new Spy();
+		grid=new Grid();
+		resetRooms();
+		grid.setObject(player);
+		resetItems();
+		resetNinjas();
+	}
+	
+	/**
+	 * This method is to reset the {@link #player} when he/she dies but not game over yet.
+	 */
+	public void resetPlayer()
+	{
+		player.resetSpy();
+		this.safeZoneCheck();
+		grid=new Grid(player,ninjas,rooms);
+		this.putBackItem();
 	}
 	
 	/**
@@ -105,9 +119,39 @@ public class GameEngine {
 				x=randGen(0,8);
 				y=randGen(0,8);
 			   
-			}while(!(grid.getObject(x,y) instanceof EmptySpace)); //add a method in Grid to get object
+			}while(!(grid.getObject(x,y) instanceof EmptySpace));
 			items[i].setLocation(x,y); 
 			grid.setObject(items[i]);	
+		}
+	}
+	
+	/**
+	 * This method is for ensuring that there is no enemy in {@link #ninjas} that is located at
+	 * the safe zone
+	 */
+	private void safeZoneCheck()
+	{
+		for(Ninja thisN:ninjas)
+		{
+			thisN.visionControl(false);
+			if(thisN.isDead());
+			else
+			{
+				int x=thisN.getX();
+				int y=thisN.getY();
+				y=8-y;
+				if(x+y<4)
+				{
+					do{
+						  do{
+							  x=randGen(0,8);
+							  y=randGen(0,8);
+						  }while(x+y<4);
+						  y=8-y;
+					   }while(grid.getObject(x,y) instanceof Room||grid.getObject(x,y) instanceof Ninja);
+					thisN.setLocation(x, y);
+				}	
+			}
 		}
 	}
 	
@@ -128,27 +172,10 @@ public class GameEngine {
 				  y=randGen(0,8);
 			  }while(x+y<4);
 			  y=8-y;
-			}while(grid.getObject(x,y) instanceof Room);//add a method in Grid to get object
+			}while(grid.getObject(x,y) instanceof Room||grid.getObject(x,y) instanceof Ninja);
 			ninjas[i]=new Ninja(x,y);
 			grid.setObject(ninjas[i]);
 		}
-	}
-		
-
-	
-	/**
-	 * This method reset the whole {@link #grid} including {@link #rooms}, {@link #ninjas} and {@link #items} but
-	 * only the location of the {@link #player};
-	 */
-	public void resetGrid()
-	{
-		grid.clear();//add a method in the Grid class that fill out the whole grid with EmptySpace
-		resetRooms();
-		player.setLocation(0, 8);
-		player.resetSpy();
-		grid.setObject(player);
-		resetItems();
-		resetNinjas();
 	}
 	
 	/**
@@ -206,8 +233,8 @@ public class GameEngine {
 					aheadY=thisY;
 					break;
 			}
-		if(aheadX>-1 && aheadX<grid.size() && aheadY>-1 && aheadY<grid.size())//add a method in Grid to return the size of the grid
-			return grid.getObject(aheadX, aheadY);//add a method in Grid to get object
+		if(aheadX>-1 && aheadX<grid.size() && aheadY>-1 && aheadY<grid.size())
+			return grid.getObject(aheadX, aheadY);
 		else
 			return null;
 	}
@@ -227,7 +254,7 @@ public class GameEngine {
 		{
 			if(obj1!=null)
 				obj1.visionControl(true); 
-			if(obj2!=null)
+			if(obj2!=null&&!(obj1 instanceof Room))
 				obj2.visionControl(true);
 		}
 		else
@@ -258,7 +285,7 @@ public class GameEngine {
 	 */
 	public String playerMove(char direction)
 	{
-		player.lookControl(false);
+		player.lookControl(true);
 		boolean isMove=false;
 		String reaction="noMove";
 		SquareObject objAhead=getObjAhead(player,direction);
@@ -349,6 +376,7 @@ public class GameEngine {
 						{
 							player.beAttacked();
 							isStab=true;
+							thisN.visionControl(true);
 						}	
 					}
 					
@@ -498,7 +526,7 @@ public class GameEngine {
 	 */
 	public boolean playerCanLook()
 	{
-		return player.canLook();//add a method to return whether the spy has looked already in current turn
+		return player.canLook();
 	}
 	
 	/**
@@ -532,13 +560,7 @@ public class GameEngine {
 	 */
 	public boolean isGameOver()
 	{
-		if(player.getLives()<0)
-			return true;
-		else
-		{
-			resetGrid();
-			return false;
-		}
+		return player.getLives()<0?true:false;
 	}
 	
 	/**
@@ -559,11 +581,9 @@ public class GameEngine {
 	public void saveGame(String filename) throws IOException
 	{
 		DataSave data = new DataSave(player,ninjas,rooms,items);
-		// add a constructor for DataSave to take Spy,Ninja[],Room[] and Item[] as parameters
-		
 		FileOutputStream fileSave = new FileOutputStream(filename+".dat");
 		ObjectOutputStream dataSave= new ObjectOutputStream(fileSave);
-		dataSave.writeObject(data);//make DataSave and SquareObject implements Serializable
+		dataSave.writeObject(data);
 		dataSave.close();
 		fileSave.close();
 	}
@@ -583,15 +603,11 @@ public class GameEngine {
 		data=(DataSave) dataSave.readObject();
 		dataSave.close();
 		fileSave.close();
-		player=data.getSpy();//add four methods to DataSave class to get all the information saved inside
+		player=data.getSpy();
 		ninjas=data.getNinjas();
 		items=data.getItems();
 		rooms=data.getRooms();
-		grid=new Grid(player,rooms,ninjas);
-		//add a overload constructor for Grid to take Spy,Room[] and Ninja[] as parameters
-		//make sure clear the grid first and put those SquareObject back to the grid
-		//be sure to check ninja.isDead() before set it to the grid
-		//no need to set item[]
+		grid=new Grid(player,ninjas,rooms);
 		this.putBackItem();
 		
 	}
