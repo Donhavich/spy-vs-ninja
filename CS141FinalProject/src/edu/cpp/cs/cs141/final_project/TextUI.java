@@ -3,6 +3,10 @@
  */
 package edu.cpp.cs.cs141.final_project;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -38,12 +42,12 @@ public class TextUI {
 				loadGame();
 				break;
 			case'3':
-				//help();
+				help();
 			}
-			
-			
-			
+				
 		}while(choice!='4');
+		
+		System.exit(0);
 		
 	}
 	
@@ -352,6 +356,25 @@ public class TextUI {
 	{
 		System.out.println("You were KILLED by an ninja!");
 		pause();
+	}
+	
+	private void help()
+	{
+			String helpString;
+			
+			try(BufferedReader br=new BufferedReader(new FileReader("help.txt")))
+			{
+				while((helpString=br.readLine())!=null)
+				{
+					System.out.println(helpString);
+				}
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			pause();
+	
 	}
 	
 }
