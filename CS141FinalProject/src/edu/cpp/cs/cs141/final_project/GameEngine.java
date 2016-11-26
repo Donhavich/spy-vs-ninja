@@ -382,7 +382,25 @@ public class GameEngine {
 					
 					else
 					{
-						//add AI here
+						//AI
+						if(thisN.getX()==player.getX())
+						{
+							if(thisN.getY()-player.getY()>1)
+							{
+								moved=this.ninjaMovementTest(thisN, 'w');
+							}
+							else
+								moved=this.ninjaMovementTest(thisN,'s'); 
+						}
+						else
+						{
+							if(thisN.getX()-player.getX()>1)
+							{
+								moved=this.ninjaMovementTest(thisN, 'a'); 
+							}
+							else
+								moved=this.ninjaMovementTest(thisN, 'd');
+						}
 					}
 				}	
 				
@@ -422,16 +440,32 @@ public class GameEngine {
 				direction='d';
 				break;
 			}
-			SquareObject objAhead=getObjAhead(thisN,direction);
-			if(objAhead instanceof Room || objAhead==null || objAhead instanceof Ninja)
-			{
-				moved=false;
-			}
-			else
-			{
-				moved=true;
-				grid.moveObject(thisN, objAhead.getX(), objAhead.getY());
-			}
+			moved=this.ninjaMovementTest(thisN, direction);
+		}
+	}
+	
+	
+	/**
+	 * This private method is used to test whether ninja can move to a specific direction.
+	 * @param thisN
+	 * The {@link Ninja} that is going to be tested
+	 * @param direction 
+	 * The direction this {@link Ninja} is intending to move
+	 * @return
+	 * {@code true} if this {@link Ninja} succeeds moving, 
+	 * {@code false} if not.
+	 */
+	private boolean ninjaMovementTest(Ninja thisN,char direction)
+	{
+		SquareObject objAhead=getObjAhead(thisN,direction);
+		if(objAhead instanceof Room || objAhead==null || objAhead instanceof Ninja)
+		{
+			return false;
+		}
+		else
+		{
+			grid.moveObject(thisN, objAhead.getX(), objAhead.getY());
+			return true;
 		}
 	}
 	

@@ -58,11 +58,11 @@ public class TextUI {
 		System.out.println("2.Load Game");
 		System.out.println("3.Help");
 		System.out.println("4.exit");
-		char choice= Input.nextLine().charAt(0);
+		char choice= getChar();
 		while(choice!='1'&&choice!='2'&&choice!='3'&&choice!='4')
 		{
 			invalidInput();
-			choice = Input.next().charAt(0);
+			choice = getChar();
 		}
 		return choice;
 	}
@@ -311,7 +311,7 @@ public class TextUI {
 	
 	public char chooseMovement() {
 		System.out.println("Choose your movement: [m] Move  [l] Look  [s] Shoot \n[*] Switch mode [!] Save & Quit");
-		char c = Input.nextLine().charAt(0);
+		char c = getChar();
 		while( c!='!' && c != 'm' && c != 'l' && c != 's') {
 			if(this.switchMode(c))
 				System.out.println("Choose your movement: [m] Move  [l] Look  [s] Shoot \n[*] Switch mode [!] Save & Quit");
@@ -319,14 +319,25 @@ public class TextUI {
 			{
 				invalidInput();
 			}
-			c = Input.nextLine().charAt(0);
+			c = getChar();
 		}
 		return c;
 	}
 	
+	private char getChar()
+	{
+		String temp=Input.nextLine();
+		while(temp.length()!=1)
+		{
+			this.invalidInput();
+			temp=Input.nextLine();
+		}
+		return temp.charAt(0);
+	}
+	
 	public char chooseDirection() {
 		System.out.println("Choose a direction: [w] Up  [a] Left  [s] Down  [d] Right \n[*] Switch mode");
-		char c = Input.nextLine().charAt(0);
+		char c = getChar();
 		while(c != 'w' && c != 'a' && c != 's' && c != 'd') {
 			if(this.switchMode(c))
 				System.out.println("Choose a direction: [w] Up  [a] Left  [s] Down  [d] Right \n[*] Switch mode");
@@ -334,7 +345,7 @@ public class TextUI {
 			{
 				invalidInput();
 			}
-			c = Input.nextLine().charAt(0);
+			c =getChar();
 		}
 		return c;
 	}	
