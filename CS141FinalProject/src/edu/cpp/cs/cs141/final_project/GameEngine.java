@@ -372,7 +372,7 @@ public class GameEngine {
 					if(Math.abs(thisN.getX()-player.getX())==1||Math.abs(thisN.getY()-player.getY())==1)
 					{
 						moved=true;
-						if(player.getInvinc()==0)
+						if(player.getInvinc()==0 && !isStab)
 						{
 							player.beAttacked();
 							isStab=true;
@@ -594,7 +594,7 @@ public class GameEngine {
 	 */
 	public boolean isGameOver()
 	{
-		return player.getLives()<0?true:false;
+		return player.getLives()==0?true:false;
 	}
 	
 	/**

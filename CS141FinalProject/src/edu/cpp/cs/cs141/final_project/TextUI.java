@@ -54,15 +54,13 @@ public class TextUI {
 
 	private char mainMenu()
 	{
-		System.out.println("1.New Game");
-		System.out.println("2.Load Game");
-		System.out.println("3.Help");
-		System.out.println("4.exit");
-		char choice= getChar();
+		String msg="1.New Game\n2.Load Game\n3.Help\n4.exit\n";
+
+		char choice= getChar(msg);
 		while(choice!='1'&&choice!='2'&&choice!='3'&&choice!='4')
 		{
 			invalidInput();
-			choice = getChar();
+			choice = getChar(msg);
 		}
 		return choice;
 	}
@@ -310,42 +308,42 @@ public class TextUI {
 	}
 	
 	public char chooseMovement() {
-		System.out.println("Choose your movement: [m] Move  [l] Look  [s] Shoot \n[*] Switch mode [!] Save & Quit");
-		char c = getChar();
+		String msg="Choose your movement: [m] Move  [l] Look  [s] Shoot \n[*] Switch mode [!] Save & Quit";
+		char c = getChar(msg);
 		while( c!='!' && c != 'm' && c != 'l' && c != 's') {
-			if(this.switchMode(c))
-				System.out.println("Choose your movement: [m] Move  [l] Look  [s] Shoot \n[*] Switch mode [!] Save & Quit");
+			if(this.switchMode(c));
 			else
 			{
 				invalidInput();
 			}
-			c = getChar();
+			c = getChar(msg);
 		}
 		return c;
 	}
 	
-	private char getChar()
+	private char getChar(String msg)
 	{
+		System.out.println(msg);
 		String temp=Input.nextLine();
 		while(temp.length()!=1)
 		{
 			this.invalidInput();
+			System.out.println(msg);
 			temp=Input.nextLine();
 		}
 		return temp.charAt(0);
 	}
 	
 	public char chooseDirection() {
-		System.out.println("Choose a direction: [w] Up  [a] Left  [s] Down  [d] Right \n[*] Switch mode");
-		char c = getChar();
+		String msg="Choose a direction: [w] Up  [a] Left  [s] Down  [d] Right \n[*] Switch mode";
+		char c = getChar(msg);
 		while(c != 'w' && c != 'a' && c != 's' && c != 'd') {
-			if(this.switchMode(c))
-				System.out.println("Choose a direction: [w] Up  [a] Left  [s] Down  [d] Right \n[*] Switch mode");
+			if(this.switchMode(c));
 			else
 			{
 				invalidInput();
 			}
-			c =getChar();
+			c =getChar(msg);
 		}
 		return c;
 	}	
