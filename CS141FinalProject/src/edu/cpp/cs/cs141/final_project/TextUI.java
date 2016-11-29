@@ -257,7 +257,7 @@ public class TextUI {
 	}
 	
 	private void getRadar() {
-		System.out.println("You got a radar and the location of the briefcase has been deteched.");
+		System.out.println("You got a radar and the location of the briefcase has been detected.");
 		pause();
 	}
 	
