@@ -337,6 +337,7 @@ public class GameEngine {
 				reaction="moved";
 				if(player.getInvinc()>0)
 				player.weakenInvinc();
+				player.changeDirection(direction);
 				
 			}
 		}
@@ -534,6 +535,7 @@ public class GameEngine {
 		else
 		{
 			player.shoot();
+			player.changeDirection(direction);
 			SquareObject nextObj = getObjAhead(player,direction);
 			while(nextObj!=null &&!(nextObj instanceof Ninja))
 			{
