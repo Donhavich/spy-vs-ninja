@@ -2,10 +2,13 @@ package edu.cpp.cs.cs141.final_project;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
+
+import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComponent;
@@ -13,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import javax.swing.KeyStroke;
 import java.awt.GridBagConstraints;
@@ -24,6 +28,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import java.awt.event.ItemListener;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -34,6 +39,7 @@ import javax.swing.UIManager;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import java.awt.Color;
+import java.awt.GridLayout;
 
 public class GUI extends JFrame {
 	
@@ -45,7 +51,7 @@ public class GUI extends JFrame {
 	
 	private CardLayout mainLayout;
 	
-	private JTextArea grid;
+	private JPanel grid;
 	
 	private GameEngine ge;
 	
@@ -57,32 +63,46 @@ public class GUI extends JFrame {
 	
 	private JTextArea info;
 	
+	private ImageIcon spy,ninja,room,briefcase,unknown,radar,invinc,bullet,empty;
 	
 	public GUI(GameEngine ge)
 	{
-		setTitle("Game");
+		setTitle("Find the lost ¦Ð");
 		this.ge=ge;
 		isDebug=false;
 		inGame=false;
-		this.setSize(600,600);
+		this.setSize(600,700);
 		mainLayout= new CardLayout();
 		getContentPane().setLayout(mainLayout);
+		setIcon();
 		setWelcomePanel();
 		setHelpPanel();
 		setMainPanel();
 		getContentPane().add(welcomePanel,"welcome");
 		getContentPane().add(helpPanel,"help");	
 		getContentPane().add(mainPanel,"main");
-		
-		
+			
+	}
+	
+	private void setIcon()
+	{
+		spy=new ImageIcon("icon/spy.png");
+		ninja=new ImageIcon("icon/ninja.png");
+		room=new ImageIcon("icon/room.png");
+		briefcase=new ImageIcon("icon/case.png");
+		unknown=new ImageIcon("icon/unknown.png");
+		radar=new ImageIcon("icon/radar.png");
+		invinc=new ImageIcon("icon/invinc.png");
+		empty=new ImageIcon("icon/empty.png");
+		bullet=new ImageIcon("icon/bullet.png");
 	}
 	
 	private void setWelcomePanel()
 	{
-		welcomePanel=new JPanel();
+		welcomePanel=new MainPanel();
 		welcomePanel.setLayout(new BoxLayout(welcomePanel,BoxLayout.Y_AXIS));
 		
-		JLabel welcomeMsg = new JLabel("Welcome to the game!");
+		JLabel welcomeMsg = new JLabel(new ImageIcon("icon/title.png"));
 		welcomeMsg.setAlignmentX(CENTER_ALIGNMENT);
 		welcomeMsg.setFont(new Font("Kristen ITC", Font.BOLD, 45));
 		
@@ -117,7 +137,7 @@ public class GUI extends JFrame {
 		load.setAlignmentX(CENTER_ALIGNMENT);
 		help.setAlignmentX(CENTER_ALIGNMENT);
 		quit.setAlignmentX(CENTER_ALIGNMENT);
-		welcomePanel.add(Box.createRigidArea(new Dimension(0,150)));
+		welcomePanel.add(Box.createRigidArea(new Dimension(0,20)));
 		welcomePanel.add(welcomeMsg);
 		welcomePanel.add(Box.createRigidArea(new Dimension(0,50)));
 		welcomePanel.add(start);
@@ -132,7 +152,8 @@ public class GUI extends JFrame {
 	private void setHelpPanel()
 	{
 		GridBagLayout layout = new GridBagLayout();
-		helpPanel=new JPanel(layout);
+		helpPanel=new MainPanel();
+		helpPanel.setLayout(layout);
 		JButton OK=new JButton("OK");
 		OK.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -182,7 +203,8 @@ public class GUI extends JFrame {
 		GridBagLayout layout=new GridBagLayout();
 		layout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0};
 		layout.columnWeights = new double[]{1.0};
-		mainPanel=new JPanel(layout);
+		mainPanel=new MainPanel();
+		mainPanel.setLayout(layout);
 		JMenuBar menu=new JMenuBar();
 		
 		JMenu game = new JMenu("Game");
@@ -284,20 +306,17 @@ public class GUI extends JFrame {
 		gbc_menu.gridx = 0;
 		gbc_menu.fill = GridBagConstraints.HORIZONTAL;
 		mainPanel.add(menu, gbc_menu);
-		
-		grid=new JTextArea();
-		grid.setBackground(UIManager.getColor("Panel.background"));
-		grid.setFont(new Font("Monospaced", Font.BOLD, 25));
-		grid.setRows(9);
-		grid.setColumns(27);
+		grid=new JPanel();
 		GridBagConstraints gbc_grid = new GridBagConstraints();
 		gbc_grid.insets = new Insets(5, 0, 5, 0);
 		gbc_grid.gridy = 1;
 		gbc_grid.gridx = 0;
 		mainPanel.add(grid, gbc_grid);
-		grid.setEditable(false);
+		grid.setLayout(new GridLayout(9, 9, 0, 0));
+		
 		
 		JPanel controlPanel=new JPanel();
+		controlPanel.setOpaque(false);
 		GridBagConstraints gbc_controlPanel = new GridBagConstraints();
 		gbc_controlPanel.weighty = 0.5;
 		gbc_controlPanel.insets = new Insets(5, 0, 0, 0);
@@ -306,6 +325,7 @@ public class GUI extends JFrame {
 		mainPanel.add(controlPanel, gbc_controlPanel);
 		
 		JRadioButton move = new JRadioButton("Move");
+		move.setOpaque(false);
 		move.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				runningMsg.setText("  choose a direction to move  \n[w]up [s]down [a]left [d]right");
@@ -323,6 +343,7 @@ public class GUI extends JFrame {
 		});
 		shoot.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		controlPanel.add(shoot);
+		shoot.setOpaque(false);
 		
 		JRadioButton look = new JRadioButton("Look");
 		look.addActionListener(new ActionListener() {
@@ -331,6 +352,7 @@ public class GUI extends JFrame {
 			}
 		});
 		look.setSelected(false);
+		look.setOpaque(false);
 		look.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		controlPanel.add(look);
 		
@@ -340,6 +362,7 @@ public class GUI extends JFrame {
 		controlGroup.add(look);
 		
 		runningMsg=new JTextArea();
+		runningMsg.setOpaque(false);
 		runningMsg.setBackground(UIManager.getColor("Panel.background"));
 		runningMsg.setText("  choose a direction to move  \n[w]up [s]down [a]left [d]right");
 		runningMsg.setEditable(false);
@@ -363,6 +386,7 @@ public class GUI extends JFrame {
 		gbc_info.gridy = 4;
 		mainPanel.add(info, gbc_info);
 		info.setColumns(10);
+		info.setOpaque(false);
 		
 		
 		grid.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("W"), "up");
@@ -427,14 +451,14 @@ public class GUI extends JFrame {
 				runningMsg.setText("You found a bullet.\nYour gun is reloaded.");
 				break;
 			case "radar": 
-				runningMsg.setText("You got a radar and the location of\nthe briefcase has been detected.");
+				runningMsg.setText("You got a radar and the location of\nthe ¦Ð has been detected.");
 				break;
 			case "invincible": 
 				runningMsg.setText("You will be invincible for 5 turns.");
 				break;
 			case "getCase":
 				isWinning=true;
-				JOptionPane.showMessageDialog(this, "You found the briefcase!\nYou won the game!","Wining",JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(this, "You found the ¦Ð!\nYou won the game!","Wining",JOptionPane.INFORMATION_MESSAGE);
 				mainLayout.show(this.getContentPane(), "welcome");
 				break;
 			}
@@ -452,7 +476,7 @@ public class GUI extends JFrame {
 					}
 					else
 					{	
-						JOptionPane.showMessageDialog(this, "You were killed by a ninja!\nTry again.","Dead",JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(this, "You were killed by a triangle!\nTry again.","Dead",JOptionPane.INFORMATION_MESSAGE);
 						ge.resetPlayer();
 						printInfo();
 					}
@@ -520,11 +544,6 @@ public class GUI extends JFrame {
 		}
 	}
 	
-	private void printInfo()
-	{
-		grid.setText(ge.toString(isDebug));
-		info.setText("lives:"+ge.getLives()+"\tbullet:"+ge.numOfBullet()+"/1\tinvicible:"+ge.turnsOfInvinc());
-	}
 	
 	private void saveGame()
 	{
@@ -600,7 +619,78 @@ public class GUI extends JFrame {
 				e.printStackTrace();
 			}
 			return helpString;
+	}
 	
+	private void printInfo()
+	{
+		grid.removeAll();
+		info.setText("lives:"+ge.getLives()+"\tbullet:"+ge.numOfBullet()+"/1\tinvicible:"+ge.turnsOfInvinc());
+		String rowString=ge.toString(isDebug);
+		String processString="";
+		for(int i=0;i<rowString.length();i++)
+		{
+			if(rowString.charAt(i)=='[')
+				processString+=rowString.charAt(i+1);
+		}
+		
+		JLabel[] gridLabel=new JLabel[81];
+		for(int i=0;i<81;i++)
+		{
+			switch(processString.charAt(i))
+			{
+			case '*':
+				gridLabel[i]=new JLabel(unknown);
+				break;
+			case ' ':
+				gridLabel[i]=new JLabel(empty);
+				break;
+			case 'S':
+				gridLabel[i]=new JLabel(spy);
+				break;
+			case 'R':
+				gridLabel[i]=new JLabel(room);
+				break;
+			case 'N':
+				gridLabel[i]=new JLabel(ninja);
+				break;
+			case 'r':
+				gridLabel[i]=new JLabel(radar);
+				break;
+			case 'i':
+				gridLabel[i]=new JLabel(invinc);
+				break;
+			case 'b':
+				gridLabel[i]=new JLabel(bullet);
+				break;
+			case 'C':
+				gridLabel[i]=new JLabel(briefcase);
+				break;
+			}
+		}
+		
+		for(JLabel l:gridLabel)
+		{
+			grid.add(l);
+		}
+	}
+	
+	private class MainPanel extends JPanel {
+		private BufferedImage background ;
+		
+		public MainPanel(){
+			try {
+				background=ImageIO.read(new File("icon/background.jpg"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		@Override
+		protected void paintComponent(Graphics g)
+		{
+			super.paintComponent(g);
+			g.drawImage(background, 0, 0,getWidth(),getHeight(),this);
+		}
 	}
 	
 	
