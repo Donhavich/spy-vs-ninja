@@ -67,7 +67,7 @@ public class GUI extends JFrame {
 	
 	public GUI(GameEngine ge)
 	{
-		setTitle("Find the lost ¦Ð");
+		setTitle("Find the lost PI");
 		this.ge=ge;
 		isDebug=false;
 		inGame=false;
@@ -451,14 +451,14 @@ public class GUI extends JFrame {
 				runningMsg.setText("You found a bullet.\nYour gun is reloaded.");
 				break;
 			case "radar": 
-				runningMsg.setText("You got a radar and the location of\nthe ¦Ð has been detected.");
+				runningMsg.setText("You got a radar and the location of\nthe PI has been detected.");
 				break;
 			case "invincible": 
 				runningMsg.setText("You will be invincible for 5 turns.");
 				break;
 			case "getCase":
 				isWinning=true;
-				JOptionPane.showMessageDialog(this, "You found the ¦Ð!\nYou won the game!","Wining",JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(this, "You found the PI!\nYou won the game!","Wining",JOptionPane.INFORMATION_MESSAGE);
 				mainLayout.show(this.getContentPane(), "welcome");
 				break;
 			}
@@ -522,9 +522,9 @@ public class GUI extends JFrame {
 					break;
 				}
 				if(ge.look(direction))
-					runningMsg.setText("You found a ninja "+directionMsg);
+					runningMsg.setText("You found a triangle "+directionMsg);
 				else
-					runningMsg.setText("There is no ninja "+directionMsg);
+					runningMsg.setText("There is no triangle "+directionMsg);
 				printInfo();
 			}
 			else
