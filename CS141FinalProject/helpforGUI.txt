@@ -1,0 +1,9 @@
+[ ]=empty
+[*]=unkonwn
+[S]=player
+[N]=ninja
+[R]=room
+[C]=room with briefcase
+[i]=invicinbility
+[b]=bullet
+[r]=radar

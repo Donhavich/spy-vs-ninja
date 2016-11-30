@@ -23,14 +23,17 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-
 import java.awt.event.ItemListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.awt.event.ItemEvent;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.JRadioButton;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.swing.JScrollPane;
+import java.awt.Color;
 
 public class GUI extends JFrame {
 	
@@ -55,14 +58,6 @@ public class GUI extends JFrame {
 	private JTextArea info;
 	
 	
-	public static void main(String[] args)
-	{
-		GameEngine ge=new GameEngine();
-		GUI gui=new GUI(ge);
-		gui.setVisible(true);
-		gui.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
-	}
 	public GUI(GameEngine ge)
 	{
 		setTitle("Game");
@@ -97,6 +92,11 @@ public class GUI extends JFrame {
 
 		start.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		load=new JButton("Load Game");
+		load.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GUI.this.loadGame();
+			}
+		});
 		load.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		help=new JButton("Help");
 		help.setFont(new Font("Tahoma", Font.PLAIN, 25));
@@ -107,6 +107,11 @@ public class GUI extends JFrame {
 			}
 		});
 		quit=new JButton("Quit");
+		quit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				GUI.this.dispose();
+			}
+		});
 		quit.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		start.setAlignmentX(CENTER_ALIGNMENT);
 		load.setAlignmentX(CENTER_ALIGNMENT);
@@ -138,21 +143,26 @@ public class GUI extends JFrame {
 			}
 		});
 		
+		JScrollPane scrollPane = new JScrollPane();
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
+		gbc_scrollPane.gridx = 0;
+		gbc_scrollPane.gridy = 1;
+		helpPanel.add(scrollPane, gbc_scrollPane);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		
 		JTextArea helpText = new JTextArea();
-		helpText.setText("Here Display Help Text\nHere Display Help Text");
-		helpText.setBackground(UIManager.getColor("OptionPane.background"));
-		helpText.setFont(new Font("Monospaced", Font.PLAIN, 22));
+		scrollPane.setViewportView(helpText);
+		helpText.setText(this.help());
+		helpText.setBackground(Color.WHITE);
+		helpText.setFont(new Font("MS PGothic", Font.PLAIN, 18));
 		helpText.setEditable(false);
-		helpText.setColumns(40);
-		helpText.setRows(10);
-		GridBagConstraints gbc_helpText = new GridBagConstraints();
-		gbc_helpText.insets = new Insets(40, 0, 5, 0);
-		gbc_helpText.gridx = 0;
-		gbc_helpText.gridy = 1;
-		helpPanel.add(helpText, gbc_helpText);
+		helpText.setColumns(30);
+		helpText.setRows(15);
 		OK.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		GridBagConstraints gbc_OK = new GridBagConstraints();
-		gbc_OK.insets = new Insets(10, 0, 40, 0);
+		gbc_OK.insets = new Insets(30, 0, 40, 0);
 		gbc_OK.gridx = 0;
 		gbc_OK.gridy = 2;
 		helpPanel.add(OK, gbc_OK);
@@ -160,7 +170,7 @@ public class GUI extends JFrame {
 		helpLabel.setFont(new Font("Snap ITC", Font.PLAIN, 35));
 		GridBagConstraints gbc_helpLabel = new GridBagConstraints();
 		gbc_helpLabel.fill = GridBagConstraints.VERTICAL;
-		gbc_helpLabel.insets = new Insets(20, 0, 5, 0);
+		gbc_helpLabel.insets = new Insets(20, 0, 20, 0);
 		gbc_helpLabel.gridx = 0;
 		gbc_helpLabel.gridy = 0;
 		helpPanel.add(helpLabel, gbc_helpLabel);
@@ -185,14 +195,30 @@ public class GUI extends JFrame {
 		game.add(newGame);
 		
 		JMenuItem loadGame = new JMenuItem("Load Game");
+		loadGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GUI.this.loadGame();
+			}
+		});
 		game.add(loadGame);
 		loadGame.setFont(new Font("Segoe UI", Font.PLAIN, 22));
 		
 		JMenuItem saveGame = new JMenuItem("Save Game");
+		saveGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				saveGame();
+			}
+		});
 		game.add(saveGame);
 		saveGame.setFont(new Font("Segoe UI", Font.PLAIN, 22));
 		
 		JMenuItem quit = new JMenuItem("Quit");
+		quit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mainLayout.show(GUI.this.getContentPane(), "welcome");
+				GUI.this.inGame=false;
+			}
+		});
 		game.add(quit);
 		quit.setFont(new Font("Segoe UI", Font.PLAIN, 22));
 		
@@ -236,6 +262,17 @@ public class GUI extends JFrame {
 		help.add(help_button);
 		
 		JMenuItem about = new JMenuItem("About");
+		about.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(GUI.this, "This game is presented by\nTeam Spirit Coders:\n"+
+														"Wing Hung Lau\n"+
+														"Michael Tang\n"+
+														"Donovan Gonzalez\n"+
+														"Lynn Nguyen\n"+
+														"Xinyuan Wang\n"+
+														"Connor Chase\n");
+			}
+		});
 		about.setFont(new Font("Segoe UI", Font.PLAIN, 22));
 		help.add(about);
 		
@@ -254,8 +291,6 @@ public class GUI extends JFrame {
 		grid.setRows(9);
 		grid.setColumns(27);
 		GridBagConstraints gbc_grid = new GridBagConstraints();
-		gbc_grid.weighty = 0.5;
-		gbc_grid.anchor = GridBagConstraints.NORTH;
 		gbc_grid.insets = new Insets(5, 0, 5, 0);
 		gbc_grid.gridy = 1;
 		gbc_grid.gridx = 0;
@@ -489,6 +524,83 @@ public class GUI extends JFrame {
 	{
 		grid.setText(ge.toString(isDebug));
 		info.setText("lives:"+ge.getLives()+"\tbullet:"+ge.numOfBullet()+"/1\tinvicible:"+ge.turnsOfInvinc());
+	}
+	
+	private void saveGame()
+	{
+		String filename = JOptionPane.showInputDialog(this,"Enter the name of the file you want to save:","Save Game",
+				JOptionPane.INFORMATION_MESSAGE);
+		if(filename!=null)
+			try {
+				ge.saveGame(filename);
+			} catch (IOException e) {
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(this, "Error!","Error",JOptionPane.ERROR_MESSAGE);
+			}
+	}
+	
+	private void loadGame()
+	{
+		File curDir = new File(".");
+		File[] allFile=curDir.listFiles();
+		int numOfSaveFile=0;
+		for(File x:allFile)
+		{
+			if(x.getName().endsWith(".dat"))
+				numOfSaveFile++;	
+		}
+		if(numOfSaveFile==0)
+			JOptionPane.showMessageDialog(this, "No valid file of saved game found!","Not found",JOptionPane.WARNING_MESSAGE);
+		else
+		{
+			String[] fileName = new String[numOfSaveFile];
+			int i=0;
+			for(File x:allFile)
+			{
+				if(x.getName().endsWith(".dat"))
+				{
+					fileName[i]=x.getName().replace(".dat", "");
+					i++;
+				}
+			}
+			String file=(String)JOptionPane.showInputDialog(this,"Select the saved game you want to load:","Load Game",
+					JOptionPane.PLAIN_MESSAGE,null,fileName,fileName[0]);
+			if(file!=null)
+			{
+				try {
+					ge.loadGame(file);
+				} catch (ClassNotFoundException e) {
+					JOptionPane.showMessageDialog(this, "Error!","Error",JOptionPane.ERROR_MESSAGE);
+					e.printStackTrace();
+				} catch (IOException e) {
+					JOptionPane.showMessageDialog(this, "Error!","Error",JOptionPane.ERROR_MESSAGE);
+					e.printStackTrace();
+				}
+				
+				mainLayout.show(this.getContentPane(), "main");
+				this.printInfo();
+			}
+		}	
+	}
+	
+	private String help()
+	{
+			String helpString="";
+			
+			try(BufferedReader br=new BufferedReader(new FileReader("helpforGUI.txt")))
+			{
+				String temp;
+				while((temp=br.readLine())!=null)
+				{
+					helpString+=temp;
+					helpString+="\n";
+				}
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(this, "Error!","Error",JOptionPane.ERROR_MESSAGE);
+				e.printStackTrace();
+			}
+			return helpString;
+	
 	}
 	
 	
