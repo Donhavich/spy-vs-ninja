@@ -472,6 +472,7 @@ public class GUI extends JFrame {
 					if(ge.isGameOver())
 					{
 						JOptionPane.showMessageDialog(this, "Game Over!","Game Over",JOptionPane.INFORMATION_MESSAGE);
+						inGame=false;
 						mainLayout.show(this.getContentPane(), "welcome");
 					}
 					else
