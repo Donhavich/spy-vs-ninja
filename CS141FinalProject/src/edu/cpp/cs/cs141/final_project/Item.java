@@ -4,8 +4,8 @@
 package edu.cpp.cs.cs141.final_project;
 
 /**
- * @author
- *
+ * @ author 
+ * This is an abstract class called Item, which represents the items that will be used during the game.
  */
 
 public abstract class Item extends SquareObject {
