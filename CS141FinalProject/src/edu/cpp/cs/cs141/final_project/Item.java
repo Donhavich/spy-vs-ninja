@@ -1,45 +1,35 @@
 /**
- * 
+ * CS 141: Intro to Programming and Problem Solving
+ * Professor: Edwin Rodríguez
+ *
+ * Description of assignment:
+ * 		Create and design a turned based Spy vs Ninja game by using 
+ * 		Object oriented techniques and follows the specifications 
+ * 		based on the rubric. 
+ *
+ * Team: Spirit Coders 
+ * 		Wing Hung Lau
+ * 		Michael Tang
+ * 		Donovan Gonzalez
+ * 		Lynn Nguyen
+ * 		Xinyuan Wang
+ * 		Connor Chase
  */
 package edu.cpp.cs.cs141.final_project;
 
 /**
- * @ author 
- * This is an abstract class called Item, which represents the items that will be used during the game.
+ * @author Michael Tang
+ *
+ *The class Radar is a subclass of abstract class {link @Item}.
  */
 
-public abstract class Item extends SquareObject {
+public class Radar extends Item {
 
-	private boolean isUsed;
-	
-	private char symbol;
-
-	
-	public Item (char symbol) {
-		isUsed = false;
-		this.symbol=symbol;
-	}
-	
-	
-	public boolean isUsed()
-	{
-		return isUsed;
-	}
-	
-	public void beingUsed()
-	{
-		isUsed = true;
-	}
-	
-	
-	
-	@Override
-	public String toString(boolean isDebug) {
-		if(isDebug || this.isVisible())
-			return "["+symbol+"]";
-		else 
-			return "[*]";
-
-	
+/**
+ * This is a super constructor that has the char
+ * of Radar.
+ */
+	public Radar() {
+		super('r');
 	}
 }
