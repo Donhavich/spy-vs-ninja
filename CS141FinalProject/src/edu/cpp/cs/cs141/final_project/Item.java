@@ -6,7 +6,6 @@
  * 		Create and design a turned based Spy vs Ninja game by using 
  * 		Object oriented techniques and follows the specifications 
  * 		based on the rubric. 
- *
  * Team: Spirit Coders 
  * 		Wing Hung Lau
  * 		Michael Tang
@@ -19,17 +18,53 @@ package edu.cpp.cs.cs141.final_project;
 
 /**
  * @author Michael Tang
- *
- *The class Radar is a subclass of abstract class {link @Item}.
+ * 
+ * This class represents some of the attributes of Items in the game.
  */
 
-public class Radar extends Item {
+public abstract class Item extends SquareObject {
+
+	private boolean isUsed;
+	
+	private char symbol;
 
 /**
- * This is a super constructor that has the char
- * of Radar.
+ * 	This is the constructor of the {@link Item}
+ * @param symbol
  */
-	public Radar() {
-		super('r');
+	public Item (char symbol) {
+		isUsed = false;
+		this.symbol=symbol;
+	}
+	
+/**
+ * This method is used to return either true or false 
+ * for the item being used.
+*/	
+	public boolean isUsed()
+	{
+		return isUsed;
+	}
+/**
+ * This method is used to declared that the item is being used.
+ */
+	public void beingUsed()
+	{
+		isUsed = true;
+	}
+	
+	
+/**
+ * This method is used for debugging the game to show the items.
+ */
+	@Override
+	public String toString(boolean isDebug) {
+		if(isDebug || this.isVisible())
+			return "["+symbol+"]";
+		else 
+			return "[*]";
+
+	
 	}
 }
+
