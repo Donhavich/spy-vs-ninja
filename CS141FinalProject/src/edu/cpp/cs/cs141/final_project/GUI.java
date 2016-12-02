@@ -1,3 +1,21 @@
+/**
+ * CS 141: Intro to Programming and Problem Solving
+ * Professor: Edwin Rodríguez
+ *
+ * Final Project Milestone 1
+ *
+ * Description of assignment:
+ * 		The first milestone for the final project is to set up the whole architecture,
+ * 		including the list of classes, with all the fields and methods.
+ *
+ * Team: Spirit Coders 
+ * 		Wing Hung Lau
+ * 		Michael Tang
+ * 		Donovan Gonzalez
+ * 		Lynn Nguyen
+ * 		Xinyuan Wang
+ * 		Connor Chase
+ */
 package edu.cpp.cs.cs141.final_project;
 
 import java.awt.CardLayout;
@@ -41,30 +59,79 @@ import javax.swing.JScrollPane;
 import java.awt.Color;
 import java.awt.GridLayout;
 
+/**
+ * This class includes the graphical user interface.
+ * @author Xinyuan Wang
+ *
+ */
 public class GUI extends JFrame {
 	
+	/**
+	 * This field represents the menu panel/welcome panel of the interface.
+	 */
 	private JPanel welcomePanel;
 	
+	/**
+	 * This field represents the panel where the actual game happens.
+	 */
 	private JPanel mainPanel;
 	
+	/**
+	 * This field represents the help panel that displays the hlep info.
+	 */
 	private JPanel helpPanel;
 	
+	/**
+	 * This is the main layout to control {@link #welcomePanel}, {@link #mainPanel}
+	 * and {@link #helpPanel}
+	 */
 	private CardLayout mainLayout;
 	
+	/**
+	 * This field represents the sub panel of {@link #mainPanel} and is the panel where
+	 * the grid of the game displays.
+	 */
 	private JPanel grid;
 	
+	/**
+	 * This field carries the {@link GameEngine} of the game.
+	 */
 	private GameEngine ge;
 	
+	/**
+	 * This boolean field records whether the game is under the debug mode.
+	 */
 	private boolean isDebug;
 	
+	/**
+	 * This boolean field is used for {@link #helpPanel} to check whether the program
+	 * is in {@link #mainPanel} of {@link #welcomePanel} in order to go back to its
+	 * previous correctly.
+	 */
 	private boolean inGame;
 	
+	/**
+	 * This field represents the the interaction message that gives the player instructions
+	 * and responds. It is under {@link #mainPanel}.
+	 */
 	private JTextArea runningMsg;
 	
+	/**
+	 * This field represents the information about the player. It is under {@link #mainPanel}.
+	 */
 	private JTextArea info;
 	
+	/**
+	 * These fields represent all the different image icon of the {@link #grid}.
+	 */
 	private ImageIcon spy,ninja,room,briefcase,unknown,radar,invinc,bullet,empty;
 	
+	
+	/**
+	 * This is the constructor of the {@link GUI}.
+	 * @param ge
+	 * The {@link GameEngine} that this interface is going to carry
+	 */
 	public GUI(GameEngine ge)
 	{
 		setTitle("Find the lost PI");
@@ -84,6 +151,9 @@ public class GUI extends JFrame {
 			
 	}
 	
+	/**
+	 * The method prepares all the icons from the file to the program.
+	 */
 	private void setIcon()
 	{
 		spy=new ImageIcon("icon/spy.png");
@@ -97,6 +167,9 @@ public class GUI extends JFrame {
 		bullet=new ImageIcon("icon/bullet.png");
 	}
 	
+	/**
+	 * This method is to set up the whole {@link #welcomePanel}
+	 */
 	private void setWelcomePanel()
 	{
 		welcomePanel=new MainPanel();
@@ -149,6 +222,9 @@ public class GUI extends JFrame {
 		welcomePanel.add(quit);
 	}
 	
+	/**
+	 * This method is to set up the whole {@link #helpPanel}
+	 */
 	private void setHelpPanel()
 	{
 		GridBagLayout layout = new GridBagLayout();
@@ -198,6 +274,9 @@ public class GUI extends JFrame {
 		
 	}
 	
+	/**
+	 * This method is to set up the whole {@link #mainPanel}
+	 */
 	private void setMainPanel()
 	{
 		GridBagLayout layout=new GridBagLayout();
@@ -430,6 +509,21 @@ public class GUI extends JFrame {
 		
 	}
 	
+	/**
+	 * This method is used to execute the game movement when the player enter
+	 * 'w'/'s'/'a'/'d' 
+	 * @param direction
+	 * 			The input direction from the user
+	 * @param move
+	 * 			{@code true} if is under move action
+	 * 			{@code false} if not
+	 * @param shoot
+	 * 			{@code true} if is under shoot action
+	 * 			{@code false} if not
+	 * @param look
+	 * 			{@code true} if is under look action
+	 * 			{@code false} if not
+	 */
 	private void movement(char direction,boolean move,boolean shoot,boolean look)
 	{
 		if(move){
@@ -533,6 +627,12 @@ public class GUI extends JFrame {
 		}
 	}
 	
+	/**
+	 * This is a subclass of {@link ActionListener} to perform action that
+	 * create a new game
+	 * @author Xinyuan Wang
+	 *
+	 */
 	private class startNewGame implements ActionListener
 	{
 		@Override
@@ -545,7 +645,9 @@ public class GUI extends JFrame {
 		}
 	}
 	
-	
+	/**
+	 * This method is used to save the game
+	 */
 	private void saveGame()
 	{
 		String filename = JOptionPane.showInputDialog(this,"Enter the name of the file you want to save:","Save Game",
@@ -559,6 +661,9 @@ public class GUI extends JFrame {
 			}
 	}
 	
+	/**
+	 * This method is to load a game
+	 */
 	private void loadGame()
 	{
 		File curDir = new File(".");
@@ -603,6 +708,11 @@ public class GUI extends JFrame {
 		}	
 	}
 	
+	/**
+	 * This method is used to get the help string from "helpforGUI.txt"
+	 * @return
+	 * The information stores in the file "helpforGUI.txt" file
+	 */
 	private String help()
 	{
 			String helpString="";
@@ -622,6 +732,9 @@ public class GUI extends JFrame {
 			return helpString;
 	}
 	
+	/**
+	 * This method is to updates the {@link #grid} and {@link #info}.
+	 */
 	private void printInfo()
 	{
 		grid.removeAll();
@@ -675,6 +788,11 @@ public class GUI extends JFrame {
 		}
 	}
 	
+	/**
+	 * This is a subclass of {@link JPanel} that could print the background of this game
+	 * @author Xinyuan Wang
+	 *
+	 */
 	private class MainPanel extends JPanel {
 		private BufferedImage background ;
 		

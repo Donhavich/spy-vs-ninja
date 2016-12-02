@@ -1,5 +1,20 @@
 /**
- * 
+ * CS 141: Intro to Programming and Problem Solving
+ * Professor: Edwin Rodríguez
+ *
+ * Final Project Milestone 1
+ *
+ * Description of assignment:
+ * 		The first milestone for the final project is to set up the whole architecture,
+ * 		including the list of classes, with all the fields and methods.
+ *
+ * Team: Spirit Coders 
+ * 		Wing Hung Lau
+ * 		Michael Tang
+ * 		Donovan Gonzalez
+ * 		Lynn Nguyen
+ * 		Xinyuan Wang
+ * 		Connor Chase
  */
 package edu.cpp.cs.cs141.final_project;
 
