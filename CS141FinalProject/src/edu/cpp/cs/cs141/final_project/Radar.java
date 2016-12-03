@@ -18,9 +18,9 @@
 package edu.cpp.cs.cs141.final_project;
 
 /**
- * @author Michael Tang
+ * The class Radar is a subclass of abstract class {link @Item}.
  *
- *The class Radar is a subclass of abstract class {link @Item}.
+ * @author Michael Tang
  */
 public class Radar extends Item {
 
