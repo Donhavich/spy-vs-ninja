@@ -26,7 +26,7 @@ public class Radar extends Item {
 
 /**
  * This is a super constructor that has the char
- * of Radar.
+ * of {@link Radar}.
  */
 	public Radar() {
 		super('r');
