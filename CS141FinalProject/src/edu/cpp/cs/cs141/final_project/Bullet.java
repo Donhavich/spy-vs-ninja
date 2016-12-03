@@ -18,10 +18,9 @@
 package edu.cpp.cs.cs141.final_project;
 
 /**
+ * The class Bullet is a subclass of abstact class {link @Item}.
  * 
  * @author Michael Tang
- *
- * The class Bullet is a subclass of abstact class {link @Item}.
  */
 public class Bullet extends Item {
 
