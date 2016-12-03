@@ -27,7 +27,7 @@ public class Invinc extends Item {
 	
 /**
  * This is a super constructor that has the char
- * of Invincible.
+ * of {@link Invincible}.
  */
 	
 	public Invinc() {
