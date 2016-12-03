@@ -27,7 +27,7 @@ public class Bullet extends Item {
 
 /**
  * This is a super constructor that has the char
- * of bullet.
+ * of {@link Bullet}.
  */
 	public Bullet() {
 		super('b');
