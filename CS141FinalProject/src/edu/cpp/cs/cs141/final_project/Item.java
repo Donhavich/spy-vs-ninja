@@ -19,7 +19,7 @@ package edu.cpp.cs.cs141.final_project;
 /**
  * @author Michael Tang
  * 
- * This class represents some of the attributes of Items in the game.
+ * This class represents the attributes of Items in the game.
  */
 
 public abstract class Item extends SquareObject {
@@ -38,15 +38,15 @@ public abstract class Item extends SquareObject {
 	}
 	
 /**
- * This method is used to return either true or false 
- * for the item being used.
+ * This method returns the value of {@link #isUsed} which is either true or false 
+ * for the item state.
 */	
 	public boolean isUsed()
 	{
 		return isUsed;
 	}
 /**
- * This method is used to declared that the item is being used.
+ * This method is used to set the {@link Item} boolean value.
  */
 	public void beingUsed()
 	{
