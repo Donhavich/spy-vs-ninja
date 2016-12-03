@@ -1,6 +1,6 @@
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin Rodríguez
+ * Professor: Edwin RodrÃ­guez
  *
  * Programming Assignment: Final Project Milestone 1
  * 
@@ -22,7 +22,7 @@ package edu.cpp.cs.cs141.final_project;
  * and equally distributed across the {@link Grid} but only one {@link Room} holds the briefcase
  * of documents that the {@link Spy} must retrieve to win the game. 
  *
- * @author
+ * @author Lynn Nguyen
  *
  */
 public class Room extends SquareObject {
@@ -30,16 +30,25 @@ public class Room extends SquareObject {
 	/**
 	 * This field represents whether {@link Room} holds the case. If {@link Room} does not
 	 * contain the briefcase, {@link #hasCase} is {@code false}. Otherwise, if {@link Room}
-	 * does contain the briefcase, {@link #hasCase} is true. Only one {@link Room} will
-	 * have the briefcase for {@link Spy} to find.
+	 * does contain the briefcase, {@link #hasCase} is {@code true}. Only one {@link Room} will
+	 * have the briefcase for {@link Spy}.
 	 */ 
 	private boolean hasCase=false;
 	
+	/**
+	 * This field represents whether the briefcase is visible to the {@link Spy}.
+	 * Initially, {@link #isCaseVisible} is {@code false} because the briefcase
+	 * is hidden.
+	 */
 	private boolean isCaseVisible=false;
 	
 	/**
-	 * This is the default constructor for the class {@link Room}. This initializes the
+	 * This is the default constructor for Room. This initializes the
 	 * {@link Room} class.
+	 * @param x
+	 * 			The x-coordinate of the room's location.
+	 * @param y
+	 * 			The y-coordinate of the room's location.
 	 */
 	public Room(int x , int y){
 	 super(x,y);	
@@ -57,17 +66,22 @@ public class Room extends SquareObject {
 	}
 	
 	/**
-	 * This method gives the briefcase if {@link Spy} enters the {@link Room}
-	 * with the briefcase. If {@link Room} has the briefcase, then
-	 * {@link #hasCase} is true and it is given to {@link Spy] who wins the game.
-	 * If not, then {@link #hasCase} is false and {@link Spy} must continue
-	 * searching for the briefcase.
+	 * This method gives the briefcase to {@link Spy} if {@link Spy} enters
+	 * the {@link Room} containing the briefcase. If {@link Room} has the briefcase,
+	 * then {@link #hasCase} is {@code true} and it is given to {@link Spy] who wins
+	 * the game. If not, then {@link #hasCase} is {@code false} and {@link Spy} must
+	 * continue searching for the briefcase.
 	 */
 	public void giveCase()
 	{
 		hasCase=true;
 	}
 	
+	/**
+	 * This method shows which {@link Room} has the briefcase once {@link Spy}
+	 * obtains the {@link Radar}. {@link isCaseVisible} is {@code true} to 
+	 * reveal the location of the case.
+	 */
 	public void radarEffect()
 	{
 		isCaseVisible=true;
