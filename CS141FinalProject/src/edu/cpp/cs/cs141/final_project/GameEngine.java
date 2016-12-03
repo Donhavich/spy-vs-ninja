@@ -1,12 +1,11 @@
 /**
  * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin Rodríguez
- *
- * Final Project Milestone 1
+ * Professor: Edwin Rodríguez*
  *
  * Description of assignment:
- * 		The first milestone for the final project is to set up the whole architecture,
- * 		including the list of classes, with all the fields and methods.
+ * 		Create and design a turned based Spy vs Ninja game by using 
+ * 		Object oriented techniques and follows the specifications 
+ * 		based on the rubric. 
  *
  * Team: Spirit Coders 
  * 		Wing Hung Lau
