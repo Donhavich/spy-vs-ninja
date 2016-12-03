@@ -1,10 +1,30 @@
-Welcome to Find the Lost π!
+Welcome to Find the Lost Pi!
 
-You are a blue circle trying to find its own π in one of the nine boxes placed around a room. You have 3 lives to survive and to avoid the green treacherous triangles to find the π! Unfortunately, the room is dark so you can only see two spaces ahead of you. However, you are equipped with a bullet to shoot any triangle that gets in your way. You may also look in a different direction to see what could possibly be next to you, but this may only be used once per turn. 
+You are a blue circle trying to find its own pi 
+in one of the nine boxes placed around a room.
+You have 3 lives to survive and to avoid the 
+green treacherous triangles to find the pi! 
+Unfortunately, the room is dark,so you can only
+see two spaces ahead of you. However, you are 
+equipped with a bullet to shoot any triangle 
+that gets in your way. You may also look in a 
+different direction to see what could possibly 
+be next to you, but this may only be used once 
+per turn. 
 
-Find any of the 3 items in the room to help you on your way to success:
-Bullet – Will add a bullet to your inventory if you haven’t used your own to shoot down a triangle
-Red Invincibility Star – Will give you invincibility for 5 turns so you won’t be killed
-Green Radar – Will allow you to view which box holds the π
+Find any of the 3 items in the room to help you 
+on your way to success:
+
+The Bullet will add a bullet to your inventory 
+if you haven’t used your own to shoot down a 
+triangle
+
+The Red Invincibility Star will give you 
+invincibility for 5 turns so you won’t be 
+killed
+
+The Green Radar will allow you to view which 
+box holds the pi for one turn
 
 Good luck!
+
