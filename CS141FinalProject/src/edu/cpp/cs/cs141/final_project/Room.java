@@ -3,6 +3,9 @@
  * Professor: Edwin RodrÃ­guez
  *
  * Programming Assignment: Final Project
+ * 
+ * Description of assignment: We are to create and design a Spy Game using
+ * object-oriented programming
  *
  * Team Spirit Coders
  *	Connor Chase
