@@ -2,10 +2,7 @@
  * CS 141: Intro to Programming and Problem Solving
  * Professor: Edwin RodrÃ­guez
  *
- * Programming Assignment: Final Project Milestone 1
- * 
- * Description of assignment: We are creating the architecture of the classes of our game
- * and printing out the display of our grid.
+ * Programming Assignment: Final Project
  *
  * Team Spirit Coders
  *	Connor Chase
