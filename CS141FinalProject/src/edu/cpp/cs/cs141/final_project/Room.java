@@ -99,7 +99,6 @@ public class Room extends SquareObject {
 	 * 	   only [R] is printed for all nine rooms and does not show the
 	 * 	   case.	 
 	 */
-	@Override
 	public String toString(boolean isDebug) {
 		
 		if(hasCase&&(isCaseVisible||isDebug))
