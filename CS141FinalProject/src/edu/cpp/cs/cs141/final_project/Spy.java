@@ -2,11 +2,7 @@
  * CS 141: Intro to Programming and Problem Solving
  * Professor: Edwin Rodríguez
  *
- * Final Project Milestone 1
- *
- * Description of assignment:
- * 		The first milestone for the final project is to set up the whole architecture,
- * 		including the list of classes, with all the fields and methods.
+ * Final Project	
  *
  * Team: Spirit Coders 
  * 		Wing Hung Lau
@@ -47,31 +43,47 @@ public class Spy extends SquareObject{
 	 */
 	private boolean isDead;
 	
+	/**
+	 * This field is used to keep track of the direction of the {@link Spy}.
+	 */
 	private char direction;
 	
+	/**
+	 * This field is used to determine if the {@link Spy} can look or not.
+	 * If the {@link Spy} can look {@link #canLook} is {@code true},
+	 * if not, {@link #canLook} is {@code false}.
+	 */
 	private boolean canLook;
 	
+	/**
+	 * This field is used to keep track of how many invincibility the {@link Spy} has.
+	 * Initially, the {@link Spy} has {@code 5} {@link #invinc}.
+	 */
 	private int invinc;
 	
 	/**
 	 * The default constructor for the class {@link Spy}. Initially a
-	 * {@link Spy} has {@link #lives} {@code 3}, {@link #bullet} {@code 1}, and is alive,
-	 * so {@link #isDead} {@code false}.
+	 * {@link Spy} has {@link #lives} {@code 3}, {@link #bullet} {@code 1}, {@link #invinc} {@code 0},
+	 * and is alive, so {@link #isDead} {@code false}.
 	 */
 	public Spy(){
 		lives = 3;
-		bullet=1;
-		invinc=0;
+		bullet = 1;
+		invinc = 0;
 		this.resetSpy();
 	}
 	
-	public void resetSpy()
-	{
+	/**
+	 * This method is used to reset the {@link Spy}.
+	 * Initially, {@link #isDead} {@code false}, {@link #canLook} {@code true},
+	 * {@link #direction} is towards the upward direction, and to the initial position
+	 * to the bottom left corner on the {@link Grid}.
+	 */
+	public void resetSpy() {
 		isDead=false;
 		canLook=true;
 		direction='w';
-		this.setLocation(0, 8);
-		
+		this.setLocation(0, 8);	
 	}
 
 	/**
@@ -108,44 +120,81 @@ public class Spy extends SquareObject{
 		return bullet;
 	}
 	
+	/**
+	 * This method is used to return the {@link #direction} of the {@link Spy}.
+	 * @return the {@link #direction} of the {@link Spy}
+	 */
 	public char getDirection() {
 		return direction;
 	}
 	
+	/**
+	 * This method is used to set the {@link #invinc} of the {@link Spy} from {@code 0} to {@code 5}.
+	 */
 	public void beInvinc() {
 		invinc = 5;
 	}
 	
+	/**
+	 * This method is used to return the {@link #invinc} of the {@link Spy}.
+	 * @return the {@link #invinc} of the {@link Spy}
+	 */
 	public int getInvinc() {
 		return invinc;
 	}
 	
+	/**
+	 * This method is used to control and set the {@link #canLook} of the {@link Spy}.
+	 * @param control
+	 */
 	public void lookControl(boolean control)
 	{
 		canLook=control;
 	}
 	
+	/**
+	 * This method is used to return the {@link #canLook} of the {@link Spy}.
+	 * @return the {@link #canLook} of the {@link Spy}
+	 */
 	public boolean canLook()
 	{
 		return canLook;
 	}
 	
-	
+	/**
+	 * This method is used to keep track of the turn of {@link #invinc}.
+	 * After each turn of {@link #invinc} is used, {@link #invinc} will decrease by one.
+	 */
 	public void weakenInvinc() {
 		invinc--;
 	}
 	
+	/**
+	 * This method is used to add the number of {@link #bullet}.
+	 * If the number of {@link #bullet} is {@code 0}, and the {@link Spy} pick up {@link Bullet},
+	 * the number of {@link #bullet} will increase by one.
+	 */
 	public void addBullet()
 	{
 		if(bullet==0)
 			bullet++;
 	}
 	
+	/**
+	 * This method is used to keep track of the number of {@link #bullet}.
+	 * Every time the {@link Spy} attacks and shoots the {@ link Ninja}, 
+	 * the number of {@link #bullet} will decrease by one.
+	 */
 	public void shoot()
 	{
 		bullet--;
 	}
 	
+	/**
+	 * This method is used to change the {@link #direction} of the {@link Spy}.
+	 * 
+	 * @param Direction
+	 */
 	public void changeDirection(char Direction) {
 		direction = Direction;
 	}

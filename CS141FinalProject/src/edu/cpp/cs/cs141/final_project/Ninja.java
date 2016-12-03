@@ -2,10 +2,7 @@
  * CS 141: Intro to Programming and Problem Solving
  * Professor: Edwin Rodríguez
  *
- * Final Project
- *
- * Description of assignment:
- * 		
+ * Final Project	
  *
  * Team: Spirit Coders 
  * 		Wing Hung Lau
@@ -38,6 +35,8 @@ public class Ninja extends SquareObject {
 	/**
 	 * The default constructor for the class {@link Ninja}. Initially a
 	 * {@link Ninja} is alive, so {@link #isDead} {@code false}.
+	 * @param x
+	 * @param y
 	 */
 	public Ninja(int x, int y){
 		super(x,y);
