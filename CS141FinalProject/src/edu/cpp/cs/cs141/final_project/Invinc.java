@@ -18,10 +18,9 @@
 package edu.cpp.cs.cs141.final_project;
 
 /**
+ * The class Invinc is a subclass of abstact class {link @Item}.
  * 
  * @author Michael Tang
- *
- * The class Invinc is a subclass of abstact class {link @Item}.
  */
 public class Invinc extends Item {
 	
