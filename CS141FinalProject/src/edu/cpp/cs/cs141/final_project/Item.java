@@ -16,10 +16,10 @@
  */
 package edu.cpp.cs.cs141.final_project;
 
-/**
- * @author Michael Tang
- * 
+/** 
  * This class represents the attributes of Items in the game.
+ *
+ * @author Michael Tang
  */
 
 public abstract class Item extends SquareObject {
