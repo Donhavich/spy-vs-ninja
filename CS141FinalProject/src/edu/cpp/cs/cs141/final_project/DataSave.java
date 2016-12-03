@@ -1,6 +1,21 @@
+/**
+ * CS 141: Intro to Programming and Problem Solving
+ * Professor: Edwin RodrÃ­guez
+ *
+ * Programming Assignment: Final Project
+ *
+ * Team Spirit Coders
+ *	Connor Chase
+ *	Donovan Gonzalez
+ * 	Wing Hung Lau
+ * 	Lynn Nguyen
+ * 	Michael Tang
+ * 	Xinyuan Wang
+ */
 package edu.cpp.cs.cs141.final_project;
 
 import java.io.*;
+
 /**
  * This is the DataSave class which implements Serializable and holds the classes of
  * attributes and behaviors in the game that is needed to be saved for the user to load
